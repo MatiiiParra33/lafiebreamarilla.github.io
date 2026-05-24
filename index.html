@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Fiebre Amarilla – Selección Colombia</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --amarillo: #FFD500;
+  --azul: #0033A0;
+  --rojo: #CE1126;
+  --negro: #0a0a0a;
+  --gris: #1a1a2e;
+  --gris2: #16213e;
+  --blanco: #f5f5f0;
+  --amarillo-glow: rgba(255,213,0,0.3);
+  --azul-glow: rgba(0,51,160,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--negro);
+  color:var(--blanco);
+  font-family:'Barlow',sans-serif;
+  overflow-x:hidden;
+}
+
+/* LOADER */
+#loader{
+  position:fixed;inset:0;
+  background:var(--negro);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:9999;
+  transition:opacity 0.8s,visibility 0.8s;
+}
+#loader.hide{opacity:0;visibility:hidden;}
+.ball-loader{
+  width:60px;height:60px;
+  background:radial-gradient(circle at 35% 35%, #fff 0%, var(--amarillo) 40%, #b8860b 100%);
+  border-radius:50%;
+  border:3px solid #333;
+  position:relative;
+  animation:spin 0.8s linear infinite, bounce 1s ease-in-out infinite alternate;
+  box-shadow: 0 0 30px var(--amarillo-glow);
+}
+.ball-loader::after{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 8 L36 18 L48 18 L39 26 L42 38 L30 32 L18 38 L21 26 L12 18 L24 18 Z' fill='rgba(0,0,0,0.2)'/%3E%3C/svg%3E") center/contain;
+  border-radius:50%;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes bounce{from{transform:translateY(0) rotate(0deg);}to{transform:translateY(-20px) rotate(180deg);}}
+.loader-text{
+  margin-top:2rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.4rem;
+  font-weight:700;
+  letter-spacing:0.3em;
+  color:var(--amarillo);
+  animation:pulse 1s ease-in-out infinite alternate;
+}
+@keyframes pulse{from{opacity:0.5;}to{opacity:1;}}
+
+/* NAVBAR */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:1000;
+  padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.4s;
+}
+nav.scrolled{
+  background:rgba(10,10,10,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,213,0,0.2);
+  padding:0.7rem 2rem;
+}
+.nav-logo{
+  font-family:'Oswald',sans-serif;
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--amarillo);
+  letter-spacing:0.05em;
+  text-decoration:none;
+}
+.nav-logo span{color:var(--rojo);}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{
+  color:var(--blanco);
+  text-decoration:none;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:600;
+  font-size:0.95rem;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  transition:color 0.3s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:2px;background:var(--amarillo);
+  transform:scaleX(0);transition:transform 0.3s;
+}
+.nav-links a:hover{color:var(--amarillo);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:24px;height:2px;background:var(--amarillo);display:block;transition:all 0.3s;}
+
+/* HERO */
+#hero{
+  height:100vh;min-height:700px;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#0a0a0a 0%,#0033A0 40%,#0a0a0a 70%,#CE1126 100%);
+  z-index:0;
+}
+.hero-particles{position:absolute;inset:0;z-index:1;overflow:hidden;}
+.particle{
+  position:absolute;
+  width:3px;height:3px;
+  background:var(--amarillo);
+  border-radius:50%;
+  animation:float-particle linear infinite;
+  opacity:0;
+}
+@keyframes float-particle{
+  0%{transform:translateY(100vh) rotate(0deg);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:1;}
+  100%{transform:translateY(-100px) rotate(360deg);opacity:0;}
+}
+.hero-stadium{
+  position:absolute;inset:0;z-index:2;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 100%, rgba(0,51,160,0.6) 0%, transparent 60%),
+    radial-gradient(ellipse 200% 50% at 50% 110%, rgba(255,213,0,0.1) 0%, transparent 50%);
+}
+.hero-lights{
+  position:absolute;top:0;left:0;right:0;height:40%;z-index:2;
+  background:
+    radial-gradient(circle 200px at 15% 20%, rgba(255,213,0,0.15) 0%, transparent 60%),
+    radial-gradient(circle 200px at 85% 20%, rgba(255,213,0,0.15) 0%, transparent 60%);
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:3;
+  background:linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.1) 40%, rgba(10,10,10,0.8) 100%);
+}
+.hero-content{
+  position:relative;z-index:4;
+  text-align:center;
+  max-width:900px;
+  padding:2rem;
+  animation:hero-enter 1.2s ease both;
+  animation-delay:0.5s;
+}
+@keyframes hero-enter{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.hero-badge{
+  display:inline-block;
+  background:rgba(255,213,0,0.1);
+  border:1px solid rgba(255,213,0,0.4);
+  padding:0.4rem 1.2rem;
+  border-radius:100px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.9rem;
+  font-weight:600;
+  letter-spacing:0.2em;
+  color:var(--amarillo);
+  text-transform:uppercase;
+  margin-bottom:1.5rem;
+  backdrop-filter:blur(5px);
+}
+.hero-title{
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(3rem,10vw,7rem);
+  font-weight:700;
+  line-height:0.9;
+  letter-spacing:-0.02em;
+  margin-bottom:1.5rem;
+}
+.hero-title .line1{
+  display:block;
+  color:var(--amarillo);
+  -webkit-text-stroke:2px var(--amarillo);
+  text-shadow:0 0 60px rgba(255,213,0,0.5);
+  animation:glow-text 2s ease-in-out infinite alternate;
+}
+.hero-title .line2{
+  display:block;color:var(--blanco);
+  font-size:0.6em;
+}
+.hero-title .line3{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:2px var(--azul);
+  font-size:0.55em;
+}
+@keyframes glow-text{
+  from{text-shadow:0 0 40px rgba(255,213,0,0.4);}
+  to{text-shadow:0 0 80px rgba(255,213,0,0.8), 0 0 120px rgba(255,213,0,0.4);}
+}
+.hero-subtitle{
+  font-family:'Barlow',sans-serif;
+  font-size:1.2rem;
+  color:rgba(245,245,240,0.8);
+  max-width:600px;
+  margin:0 auto 2.5rem;
+  line-height:1.6;
+}
+.hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem;}
+.btn-primary{
+  background:var(--amarillo);
+  color:var(--negro);
+  padding:0.9rem 2rem;
+  border:none;border-radius:4px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:1rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;
+  transition:all 0.3s;
+  box-shadow:0 0 30px rgba(255,213,0,0.3);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 50px rgba(255,213,0,0.6);
+}
+.btn-outline{
+  background:transparent;
+  color:var(--blanco);
+  padding:0.9rem 2rem;
+  border:2px solid rgba(245,245,240,0.5);
+  border-radius:4px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:1rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;
+  transition:all 0.3s;
+}
+.btn-outline:hover{
+  border-color:var(--amarillo);
+  color:var(--amarillo);
+}
+.countdown-box{
+  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
+}
+.countdown-unit{text-align:center;}
+.countdown-num{
+  font-family:'Oswald',sans-serif;
+  font-size:3rem;font-weight:700;
+  color:var(--amarillo);
+  display:block;
+  line-height:1;
+}
+.countdown-label{
+  font-size:0.7rem;letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(245,245,240,0.5);
+}
+.countdown-sep{
+  font-family:'Oswald',sans-serif;
+  font-size:2.5rem;
+  color:var(--amarillo);
+  opacity:0.4;
+  align-self:flex-start;
+  margin-top:0.3rem;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:0.4;}50%{opacity:0.1;}}
+.scroll-hint{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  z-index:4;
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  opacity:0.6;
+  animation:float 2s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+.scroll-hint span{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;}
+.scroll-arrow{width:24px;height:24px;border-right:2px solid var(--amarillo);border-bottom:2px solid var(--amarillo);transform:rotate(45deg);animation:bounce-arrow 1.5s ease-in-out infinite;}
+@keyframes bounce-arrow{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* SECTIONS */
+section{padding:6rem 2rem;}
+.section-header{text-align:center;margin-bottom:4rem;}
+.section-tag{
+  display:inline-block;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.8rem;font-weight:700;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--amarillo);
+  margin-bottom:1rem;
+  position:relative;
+}
+.section-tag::before,.section-tag::after{
+  content:'';display:inline-block;
+  width:30px;height:1px;
+  background:var(--amarillo);
+  vertical-align:middle;
+  margin:0 0.8rem;
+  opacity:0.6;
+}
+.section-title{
+  font-family:'Oswald',sans-serif;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-0.02em;
+}
+.section-title .highlight{color:var(--amarillo);}
+.section-desc{
+  font-size:1.1rem;
+  color:rgba(245,245,240,0.6);
+  max-width:600px;margin:1rem auto 0;
+  line-height:1.7;
+}
+
+/* TIMELINE */
+#historia{background:var(--gris);}
+.timeline{position:relative;max-width:900px;margin:0 auto;}
+.timeline::before{
+  content:'';
+  position:absolute;left:50%;top:0;bottom:0;
+  width:2px;
+  background:linear-gradient(to bottom, transparent, var(--amarillo), transparent);
+  transform:translateX(-50%);
+}
+.tl-item{
+  display:flex;
+  margin-bottom:4rem;
+  position:relative;
+  opacity:0;transform:translateY(30px);
+  transition:all 0.6s;
+}
+.tl-item.visible{opacity:1;transform:none;}
+.tl-item:nth-child(odd){flex-direction:row;}
+.tl-item:nth-child(even){flex-direction:row-reverse;}
+.tl-content{
+  width:calc(50% - 40px);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,213,0,0.15);
+  border-radius:8px;
+  padding:1.5rem;
+  transition:all 0.3s;
+  cursor:pointer;
+}
+.tl-content:hover{
+  background:rgba(255,213,0,0.06);
+  border-color:rgba(255,213,0,0.4);
+  transform:scale(1.02);
+  box-shadow:0 8px 40px rgba(255,213,0,0.1);
+}
+.tl-dot{
+  position:absolute;left:50%;top:1.5rem;
+  width:16px;height:16px;
+  background:var(--amarillo);
+  border-radius:50%;
+  transform:translateX(-50%);
+  box-shadow:0 0 20px var(--amarillo-glow);
+  transition:all 0.3s;
+}
+.tl-content:hover ~ .tl-dot,.tl-content:hover + .tl-spacer + .tl-dot{box-shadow:0 0 40px var(--amarillo);}
+.tl-spacer{width:80px;}
+.tl-year{
+  font-family:'Oswald',sans-serif;
+  font-size:0.8rem;font-weight:700;
+  letter-spacing:0.2em;
+  color:var(--amarillo);
+  margin-bottom:0.5rem;
+  text-transform:uppercase;
+}
+.tl-flag{font-size:1.5rem;margin-bottom:0.5rem;}
+.tl-world{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.4rem;font-weight:700;
+  color:var(--blanco);
+  margin-bottom:0.8rem;
+}
+.tl-desc{font-size:0.9rem;color:rgba(245,245,240,0.6);line-height:1.6;margin-bottom:1rem;}
+.tl-stats{display:flex;gap:1rem;flex-wrap:wrap;}
+.tl-stat{
+  background:rgba(255,213,0,0.08);
+  border:1px solid rgba(255,213,0,0.2);
+  padding:0.3rem 0.6rem;
+  border-radius:4px;
+  font-size:0.8rem;
+  font-weight:600;
+  color:var(--amarillo);
+}
+
+/* MOMENTOS */
+#momentos{background:var(--negro);}
+.momentos-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+  gap:1.5rem;
+  max-width:1200px;margin:0 auto;
+}
+.momento-card{
+  position:relative;overflow:hidden;border-radius:8px;
+  aspect-ratio:16/10;cursor:pointer;
+  transition:transform 0.4s;
+}
+.momento-card:hover{transform:scale(1.03);}
+.momento-card:nth-child(1){grid-column:span 2;}
+.momento-bg{
+  position:absolute;inset:0;
+  background:var(--azul);
+  display:flex;align-items:center;justify-content:center;
+  font-size:4rem;
+}
+.momento-bg-1{background:linear-gradient(135deg,#0033A0,#001a66);}
+.momento-bg-2{background:linear-gradient(135deg,#CE1126,#800010);}
+.momento-bg-3{background:linear-gradient(135deg,#FFD500,#b8860b);}
+.momento-bg-4{background:linear-gradient(135deg,#0a5c0a,#042804);}
+.momento-bg-5{background:linear-gradient(135deg,#3d0099,#1a0044);}
+.momento-bg-6{background:linear-gradient(135deg,#0a3366,#011122);}
+.momento-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.9) 30%,transparent 70%);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:1.5rem;
+  transform:translateY(50px);
+  transition:transform 0.4s;
+}
+.momento-card:hover .momento-overlay{transform:none;}
+.momento-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.4rem;font-weight:700;
+  color:var(--blanco);margin-bottom:0.3rem;
+}
+.momento-desc{font-size:0.85rem;color:rgba(245,245,240,0.7);margin-bottom:0.8rem;}
+.momento-btn{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  background:var(--amarillo);color:var(--negro);
+  padding:0.4rem 0.8rem;border-radius:4px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.85rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.05em;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:all 0.3s;
+}
+.momento-btn:hover{background:#fff;}
+.momento-emoji{font-size:5rem;opacity:0.3;}
+
+/* VIDEOS */
+#videos{background:linear-gradient(180deg,var(--gris) 0%,var(--negro) 100%);}
+.videos-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.5rem;
+  max-width:1200px;margin:0 auto;
+}
+.video-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;overflow:hidden;
+  transition:all 0.3s;cursor:pointer;
+}
+.video-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,213,0,0.3);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4);
+}
+.video-thumb{
+  position:relative;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:#111;
+}
+.video-thumb iframe{
+  width:100%;height:100%;border:none;
+  pointer-events:none;
+}
+.video-play-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.4);
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s;
+}
+.video-card:hover .video-play-overlay{background:rgba(0,0,0,0);}
+.play-btn{
+  width:60px;height:60px;
+  background:rgba(255,213,0,0.9);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+  transition:all 0.3s;
+  box-shadow:0 0 30px rgba(255,213,0,0.5);
+}
+.video-card:hover .play-btn{
+  background:var(--amarillo);
+  transform:scale(1.1);
+}
+.video-info{padding:1rem;}
+.video-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.1rem;font-weight:700;
+  color:var(--blanco);margin-bottom:0.3rem;
+}
+.video-sub{font-size:0.8rem;color:rgba(245,245,240,0.5);}
+
+/* LEYENDAS */
+#leyendas{background:var(--gris);}
+.leyendas-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:1.5rem;
+  max-width:1100px;margin:0 auto;
+}
+.leyenda-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:8px;padding:2rem 1.5rem;
+  text-align:center;
+  transition:all 0.4s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.leyenda-card::before{
+  content:'';position:absolute;
+  top:-100%;left:-100%;width:300%;height:300%;
+  background:radial-gradient(circle at center,rgba(255,213,0,0.08),transparent 60%);
+  transition:all 0.6s;
+  opacity:0;
+}
+.leyenda-card:hover::before{top:-100%;left:-100%;opacity:1;}
+.leyenda-card:hover{
+  border-color:var(--amarillo);
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(255,213,0,0.15);
+}
+.leyenda-avatar{
+  width:90px;height:90px;
+  border-radius:50%;
+  margin:0 auto 1rem;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;
+  position:relative;
+}
+.leyenda-avatar::after{
+  content:'';position:absolute;inset:-3px;
+  border-radius:50%;
+  border:2px solid var(--amarillo);
+  opacity:0;transition:opacity 0.3s;
+}
+.leyenda-card:hover .leyenda-avatar::after{opacity:1;}
+.leyenda-num{
+  font-family:'Oswald',sans-serif;
+  font-size:0.75rem;font-weight:700;
+  letter-spacing:0.2em;color:var(--amarillo);
+  margin-bottom:0.3rem;
+  text-transform:uppercase;
+}
+.leyenda-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.2rem;font-weight:700;
+  color:var(--blanco);margin-bottom:0.3rem;
+}
+.leyenda-role{font-size:0.8rem;color:rgba(245,245,240,0.5);}
+.leyenda-goals{
+  margin-top:0.8rem;
+  font-family:'Oswald',sans-serif;
+  font-size:1.8rem;font-weight:700;
+  color:var(--amarillo);
+}
+.leyenda-goals-label{font-size:0.7rem;color:rgba(245,245,240,0.4);}
+.leyenda-quote{
+  margin-top:0.8rem;
+  font-size:0.8rem;
+  color:rgba(245,245,240,0.5);
+  font-style:italic;
+  line-height:1.4;
+}
+
+/* HINCHADA */
+#hinchada{
+  background:linear-gradient(180deg,var(--negro) 0%,rgba(0,51,160,0.2) 50%,var(--negro) 100%);
+}
+.hinchada-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;max-width:1000px;margin:0 auto;
+  align-items:center;
+}
+.hinchada-text h3{
+  font-family:'Oswald',sans-serif;
+  font-size:2.5rem;font-weight:700;
+  color:var(--amarillo);margin-bottom:1rem;
+}
+.hinchada-text p{
+  font-size:1rem;
+  color:rgba(245,245,240,0.7);
+  line-height:1.7;margin-bottom:1.5rem;
+}
+.cantos-list{list-style:none;display:flex;flex-direction:column;gap:0.8rem;}
+.canto-item{
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(255,213,0,0.06);
+  border:1px solid rgba(255,213,0,0.15);
+  border-radius:8px;padding:1rem;
+  cursor:pointer;transition:all 0.3s;
+}
+.canto-item:hover{background:rgba(255,213,0,0.12);border-color:var(--amarillo);}
+.canto-icon{
+  width:40px;height:40px;flex-shrink:0;
+  background:var(--amarillo);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+}
+.canto-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:700;color:var(--blanco);
+}
+.canto-type{font-size:0.75rem;color:rgba(245,245,240,0.4);}
+.hinchada-visual{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+}
+.hinchada-card{
+  aspect-ratio:1;
+  border-radius:8px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:0.5rem;
+  font-size:2.5rem;
+  transition:transform 0.3s;
+  cursor:pointer;
+}
+.hinchada-card:hover{transform:scale(1.05);}
+.hinchada-card:nth-child(1){background:linear-gradient(135deg,var(--amarillo),#b8860b);grid-row:span 2;}
+.hinchada-card:nth-child(2){background:linear-gradient(135deg,var(--azul),#001a66);}
+.hinchada-card:nth-child(3){background:linear-gradient(135deg,var(--rojo),#800010);}
+.hinchada-card-title{font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;font-weight:700;color:rgba(0,0,0,0.6);text-transform:uppercase;letter-spacing:0.1em;}
+
+/* PROXIMO MUNDIAL */
+#proximo{background:var(--gris);}
+.mundial-hero{
+  max-width:900px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;
+  align-items:start;
+}
+.mundial-countdown{
+  background:rgba(255,213,0,0.06);
+  border:1px solid rgba(255,213,0,0.2);
+  border-radius:12px;padding:2rem;
+  text-align:center;
+}
+.mundial-countdown h3{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.9rem;font-weight:700;
+  letter-spacing:0.2em;color:var(--amarillo);
+  text-transform:uppercase;margin-bottom:1.5rem;
+}
+.cd-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.cd-box{
+  background:rgba(255,255,255,0.04);
+  border-radius:8px;padding:1rem;
+}
+.cd-num{
+  font-family:'Oswald',sans-serif;
+  font-size:2.5rem;font-weight:700;
+  color:var(--amarillo);display:block;
+}
+.cd-lbl{font-size:0.7rem;letter-spacing:0.15em;color:rgba(245,245,240,0.5);text-transform:uppercase;}
+.mundial-info h3{
+  font-family:'Oswald',sans-serif;
+  font-size:2rem;font-weight:700;
+  color:var(--blanco);margin-bottom:0.5rem;
+}
+.mundial-info .subtitle{
+  font-size:1rem;color:var(--amarillo);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:600;margin-bottom:1.5rem;
+}
+.promesas-grid{display:flex;flex-direction:column;gap:0.8rem;}
+.promesa-item{
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(255,255,255,0.03);
+  border-radius:6px;padding:0.8rem;
+  border-left:3px solid var(--amarillo);
+  transition:all 0.3s;
+}
+.promesa-item:hover{background:rgba(255,213,0,0.06);}
+.promesa-num{
+  font-family:'Oswald',sans-serif;
+  font-size:1.5rem;font-weight:700;
+  color:var(--amarillo);min-width:2rem;
+}
+.promesa-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:700;color:var(--blanco);
+}
+.promesa-pos{font-size:0.75rem;color:rgba(245,245,240,0.5);}
+
+/* NOTICIAS */
+#noticias{background:var(--negro);}
+.noticias-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:2rem;max-width:1100px;margin:0 auto;
+}
+.noticia-featured{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;overflow:hidden;
+  cursor:pointer;transition:all 0.3s;
+}
+.noticia-featured:hover{
+  border-color:rgba(255,213,0,0.3);
+  transform:translateY(-2px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4);
+}
+.noticia-img{
+  aspect-ratio:16/9;
+  background:linear-gradient(135deg,#0033A0,#001a66);
+  display:flex;align-items:center;justify-content:center;
+  font-size:5rem;
+}
+.noticia-body{padding:1.5rem;}
+.noticia-cat{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.75rem;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--amarillo);margin-bottom:0.5rem;
+  display:flex;align-items:center;gap:0.4rem;
+}
+.noticia-cat::before{content:'';width:20px;height:2px;background:var(--amarillo);}
+.noticia-title{
+  font-family:'Oswald',sans-serif;
+  font-size:1.6rem;font-weight:700;
+  color:var(--blanco);margin-bottom:0.8rem;
+  line-height:1.2;
+}
+.noticia-excerpt{font-size:0.9rem;color:rgba(245,245,240,0.6);line-height:1.6;margin-bottom:1rem;}
+.noticia-meta{font-size:0.78rem;color:rgba(245,245,240,0.4);}
+.noticias-sidebar{display:flex;flex-direction:column;gap:1rem;}
+.noticia-mini{
+  display:flex;gap:1rem;
+  background:rgba(255,255,255,0.03);
+  border-radius:8px;padding:1rem;
+  border:1px solid rgba(255,255,255,0.06);
+  cursor:pointer;transition:all 0.3s;
+}
+.noticia-mini:hover{border-color:rgba(255,213,0,0.2);background:rgba(255,213,0,0.04);}
+.noticia-mini-img{
+  width:70px;height:70px;flex-shrink:0;
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;
+}
+.noticia-mini-cat{
+  font-size:0.7rem;font-weight:700;
+  color:var(--amarillo);letter-spacing:0.1em;
+  text-transform:uppercase;margin-bottom:0.2rem;
+}
+.noticia-mini-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.95rem;font-weight:700;color:var(--blanco);line-height:1.3;
+}
+.noticia-mini-date{font-size:0.72rem;color:rgba(245,245,240,0.3);margin-top:0.3rem;}
+
+/* COMUNIDAD */
+#comunidad{background:var(--gris);}
+.encuesta-box{
+  max-width:600px;margin:0 auto;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:2rem;
+}
+.encuesta-pregunta{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.4rem;font-weight:700;color:var(--blanco);
+  margin-bottom:1.5rem;
+}
+.opcion-btn{
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;padding:0.9rem 1rem;
+  color:var(--blanco);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:600;
+  text-align:left;cursor:pointer;
+  transition:all 0.3s;margin-bottom:0.7rem;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.opcion-btn:hover{background:rgba(255,213,0,0.08);border-color:rgba(255,213,0,0.3);}
+.opcion-btn.selected{background:rgba(255,213,0,0.12);border-color:var(--amarillo);}
+.opcion-bar{
+  height:4px;background:rgba(255,213,0,0.2);
+  border-radius:2px;flex:1;overflow:hidden;
+}
+.opcion-fill{height:100%;background:var(--amarillo);border-radius:2px;transition:width 0.8s ease;}
+.opcion-pct{font-size:0.8rem;color:var(--amarillo);min-width:2.5rem;text-align:right;}
+
+/* FOOTER */
+footer{
+  background:rgba(5,5,10,1);
+  border-top:1px solid rgba(255,213,0,0.1);
+  padding:3rem 2rem 2rem;
+  text-align:center;
+}
+.footer-logo{
+  font-family:'Oswald',sans-serif;
+  font-size:2rem;font-weight:700;
+  color:var(--amarillo);letter-spacing:0.05em;
+  margin-bottom:0.5rem;
+}
+.footer-logo span{color:var(--rojo);}
+.footer-sub{font-size:0.9rem;color:rgba(245,245,240,0.4);margin-bottom:2rem;}
+.footer-links{
+  display:flex;gap:2rem;justify-content:center;
+  flex-wrap:wrap;margin-bottom:2rem;list-style:none;
+}
+.footer-links a{
+  color:rgba(245,245,240,0.5);text-decoration:none;
+  font-size:0.85rem;transition:color 0.3s;
+}
+.footer-links a:hover{color:var(--amarillo);}
+.footer-copy{font-size:0.78rem;color:rgba(245,245,240,0.25);}
+
+/* LIGHTBOX */
+#lightbox{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.95);
+  z-index:9998;
+  display:none;
+  align-items:center;justify-content:center;
+  flex-direction:column;
+}
+#lightbox.open{display:flex;}
+#lightbox iframe{
+  width:min(900px,90vw);
+  aspect-ratio:16/9;
+  border:none;border-radius:8px;
+}
+#lightbox-close{
+  position:absolute;top:2rem;right:2rem;
+  background:rgba(255,255,255,0.1);
+  border:none;border-radius:50%;
+  width:48px;height:48px;
+  color:var(--blanco);font-size:1.5rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.3s;
+}
+#lightbox-close:hover{background:var(--rojo);}
+
+/* MODAL */
+#modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.9);
+  z-index:9997;display:none;
+  align-items:center;justify-content:center;
+  padding:2rem;
+}
+#modal.open{display:flex;}
+.modal-content{
+  background:var(--gris2);
+  border:1px solid rgba(255,213,0,0.2);
+  border-radius:12px;
+  max-width:700px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  padding:2.5rem;position:relative;
+}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  background:rgba(255,255,255,0.08);border:none;
+  border-radius:50%;width:36px;height:36px;
+  color:var(--blanco);font-size:1.2rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{background:var(--rojo);}
+.modal-player-emoji{font-size:4rem;margin-bottom:1rem;}
+.modal-player-name{
+  font-family:'Oswald',sans-serif;
+  font-size:2.5rem;font-weight:700;
+  color:var(--amarillo);
+}
+.modal-player-years{font-size:1rem;color:rgba(245,245,240,0.5);margin-bottom:1.5rem;}
+.modal-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1rem;margin-bottom:1.5rem;
+}
+.modal-stat{text-align:center;background:rgba(255,255,255,0.04);border-radius:8px;padding:1rem;}
+.modal-stat-num{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--amarillo);}
+.modal-stat-lbl{font-size:0.75rem;color:rgba(245,245,240,0.5);text-transform:uppercase;letter-spacing:0.1em;}
+.modal-quote{
+  border-left:3px solid var(--amarillo);
+  padding-left:1.5rem;
+  font-style:italic;
+  color:rgba(245,245,240,0.7);
+  font-size:1.1rem;
+  line-height:1.6;
+  margin-bottom:1.5rem;
+}
+.modal-desc{font-size:0.95rem;color:rgba(245,245,240,0.6);line-height:1.7;}
+
+/* AUDIO PLAYER */
+#hinchada-sound{
+  position:fixed;bottom:2rem;right:2rem;z-index:500;
+}
+.sound-btn{
+  width:56px;height:56px;
+  background:var(--amarillo);
+  border:none;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;cursor:pointer;
+  box-shadow:0 4px 20px rgba(255,213,0,0.4);
+  transition:all 0.3s;
+  animation:sound-pulse 2s ease-in-out infinite;
+}
+.sound-btn:hover{transform:scale(1.1);}
+@keyframes sound-pulse{
+  0%,100%{box-shadow:0 4px 20px rgba(255,213,0,0.4);}
+  50%{box-shadow:0 4px 40px rgba(255,213,0,0.7);}
+}
+
+/* CONFETTI */
+.confetti-piece{
+  position:fixed;
+  width:10px;height:10px;
+  top:-20px;
+  z-index:9996;
+  border-radius:2px;
+  animation:confetti-fall linear forwards;
+  pointer-events:none;
+}
+@keyframes confetti-fall{
+  to{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .timeline::before{left:24px;}
+  .tl-item,.tl-item:nth-child(even){flex-direction:column;}
+  .tl-content{width:100%;margin-left:60px;}
+  .tl-dot{left:24px;}
+  .tl-spacer{display:none;}
+  .momentos-grid .momento-card:nth-child(1){grid-column:span 1;}
+  .hinchada-grid,.noticias-grid,.mundial-hero{grid-template-columns:1fr;}
+  .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,10,0.98);gap:2rem;font-size:1.5rem;}
+  .nav-links.open{display:flex;}
+  .hamburger{display:flex;}
+}
+@media(max-width:480px){
+  .leyendas-grid{grid-template-columns:repeat(2,1fr);}
+  .modal-stats{grid-template-columns:1fr 1fr;}
+  .cd-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ball-loader"></div>
+  <p class="loader-text">La Fiebre Amarilla</p>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <iframe id="lightbox-frame" allowfullscreen allow="autoplay"></iframe>
+</div>
+
+<!-- MODAL JUGADOR -->
+<div id="modal">
+  <div class="modal-content" id="modal-body">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+</div>
+
+<!-- SOUND BTN -->
+<div id="hinchada-sound">
+  <button class="sound-btn" onclick="toggleSound()" title="Sonido de estadio" id="sound-btn">🔊</button>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">La <span>Fiebre</span> Amarilla</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#historia" onclick="closeMenu()">Historia</a></li>
+    <li><a href="#momentos" onclick="closeMenu()">Momentos</a></li>
+    <li><a href="#videos" onclick="closeMenu()">Videos</a></li>
+    <li><a href="#leyendas" onclick="closeMenu()">Leyendas</a></li>
+    <li><a href="#hinchada" onclick="closeMenu()">Hinchada</a></li>
+    <li><a href="#proximo" onclick="closeMenu()">2026</a></li>
+    <li><a href="#noticias" onclick="closeMenu()">Noticias</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-stadium"></div>
+  <div class="hero-lights"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇨🇴 Selección Colombia · Mundial 2026</div>
+    <h1 class="hero-title">
+      <span class="line1">La Fiebre</span>
+      <span class="line2">Amarilla</span>
+      <span class="line3">Colombia</span>
+    </h1>
+    <p class="hero-subtitle">Una pasión que une a todo un país. Revive la historia de Colombia en los mundiales y prepárate para el próximo sueño.</p>
+    <div class="hero-buttons">
+      <a href="#historia" class="btn-primary">⚽ Revive la Historia</a>
+      <a href="#hinchada" class="btn-outline">🎵 La Hinchada</a>
+      <a href="#proximo" class="btn-outline">🏆 Mundial 2026</a>
+    </div>
+    <div class="countdown-box" id="hero-countdown">
+      <div class="countdown-unit"><span class="countdown-num" id="cd-dias">--</span><span class="countdown-label">Días</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-horas">--</span><span class="countdown-label">Horas</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-min">--</span><span class="countdown-label">Min</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-seg">--</span><span class="countdown-label">Seg</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Explorar</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+<section id="historia">
+  <div class="section-header">
+    <p class="section-tag">Historia</p>
+    <h2 class="section-title">Colombia en los <span class="highlight">Mundiales</span></h2>
+    <p class="section-desc">Seis participaciones, infinitas emociones. Una historia de sacrificio, talento y pasión colombiana.</p>
+  </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/1Zt36uAHC74')">
+        <div class="tl-flag">🇨🇱</div>
+        <div class="tl-year">Chile 1962</div>
+        <div class="tl-world">Primera Participación</div>
+        <p class="tl-desc">El debut histórico de la Selección Colombia en un Mundial. Tres partidos, muchos aprendizajes y el comienzo de una historia épica. El gol de Marcos Coll al portero Lev Yashin fue el único gol de tiro libre directo en la historia de los mundiales.</p>
+        <div class="tl-stats">
+          <span class="tl-stat">PJ: 3</span>
+          <span class="tl-stat">0G · 1E · 2P</span>
+          <span class="tl-stat">4to lugar grupo</span>
+          <span class="tl-stat">⚽ 5 goles en contra</span>
+        </div>
+      </div>
+      <div class="tl-spacer"></div>
+      <div class="tl-dot"></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-spacer"></div>
+      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/Z3G-o5goFNU')">
+        <div class="tl-flag">🇮🇹</div>
+        <div class="tl-year">Italia 1990</div>
+        <div class="tl-world">El Despertar Glorioso</div>
+        <p class="tl-desc">Freddy Rincón, Valderrama y Higuita encandilaron al mundo. El empate épico ante Alemania Federal en el último minuto con gol de Rincón nos clasificó a octavos de final por primera vez.</p>
+        <div class="tl-stats">
+          <span class="tl-stat">PJ: 4</span>
+          <span class="tl-stat">1G · 1E · 2P</span>
+          <span class="tl-stat">Octavos de final</span>
+          <span class="tl-stat">⭐ Rincón histórico</span>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/GOjWRiSFR1w')">
+        <div class="tl-flag">🇺🇸</div>
+        <div class="tl-year">USA 1994</div>
+        <div class="tl-world">La Tragedia de USA 94</div>
+        <p class="tl-desc">Con grandes expectativas tras golear a Argentina 5-0 en eliminatorias, Colombia llegó como favorita. La derrota ante Estados Unidos y el gol en propia puerta de Andrés Escobar marcaron uno de los momentos más trágicos del fútbol colombiano.</p>
+        <div class="tl-stats">
+          <span class="tl-stat">PJ: 3</span>
+          <span class="tl-stat">1G · 0E · 2P</span>
+          <span class="tl-stat">Fase de grupos</span>
+          <span class="tl-stat">💛 Andrés Escobar</span>
+        </div>
+      </div>
+      <div class="tl-spacer"></div>
+      <div class="tl-dot"></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-spacer"></div>
+      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/4_5pP7zrVQA')">
+        <div class="tl-flag">🇫🇷</div>
+        <div class="tl-year">Francia 1998</div>
+        <div class="tl-world">El Escorpión en Europa</div>
+        <p class="tl-desc">Higuita, Valderrama y el Tino Asprilla brillaron aunque Colombia no pudo superar la fase de grupos. La generación dorada dejó su huella en Europa con un juego atractivo y memorable.</p>
+        <div class="tl-stats">
+          <span class="tl-stat">PJ: 3</span>
+          <span class="tl-stat">1G · 0E · 2P</span>
+          <span class="tl-stat">Fase de grupos</span>
+          <span class="tl-stat">🦂 Higuita presente</span>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/1_F-CJSNOhY')">
+        <div class="tl-flag">🇧🇷</div>
+        <div class="tl-year">Brasil 2014</div>
+        <div class="tl-world">La Generación de Oro</div>
+        <p class="tl-desc">James Rodríguez se convirtió en el Bota de Oro con 6 goles. Colombia llegó a cuartos de final por primera vez en su historia. El gol de volea contra Uruguay es considerado el mejor gol del torneo y de la historia colombiana.</p>
+        <div class="tl-stats">
+          <span class="tl-stat">PJ: 5</span>
+          <span class="tl-stat">3G · 1E · 1P</span>
+          <span class="tl-stat">⭐ Cuartos de final</span>
+          <span class="tl-stat">🏅 James Bota de Oro</span>
+        </div>
+      </div>
+      <div class="tl-spacer"></div>
+      <div class="tl-dot"></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-spacer"></div>
+      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/cz6wIoqOKO0')">
+        <div class="tl-flag">🇷🇺</div>
+        <div class="tl-year">Rusia 2018</div>
+        <div class="tl-world">La Batalla de Rusia</div>
+        <p class="tl-desc">Colombia llegó a octavos de final. El penal fallado por Quintero y la épica pelea de penales ante Inglaterra donde Colombia estuvo a segundos de los cuartos de final. Yerry Mina se convirtió en héroe nacional.</p>
+        <div class="tl-stats">
+          <span class="tl-stat">PJ: 4</span>
+          <span class="tl-stat">2G · 0E · 2P</span>
+          <span class="tl-stat">Octavos de final</span>
+          <span class="tl-stat">🦁 Yerry Mina</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOMENTOS -->
+<section id="momentos">
+  <div class="section-header">
+    <p class="section-tag">Momentos Históricos</p>
+    <h2 class="section-title">Que <span class="highlight">Jamás</span> Olvidaremos</h2>
+    <p class="section-desc">Los instantes que nos hicieron gritar, llorar y vibrar con la tricolor.</p>
+  </div>
+  <div class="momentos-grid">
+    <div class="momento-card">
+      <div class="momento-bg momento-bg-1"><span class="momento-emoji">5️⃣0️⃣</span></div>
+      <div class="momento-overlay">
+        <h3 class="momento-title">Colombia 5 – Argentina 0</h3>
+        <p class="momento-desc">5 de septiembre de 1993. La noche que Colombia humilló a Argentina en Buenos Aires y clasificó al Mundial de USA 94.</p>
+        <button class="momento-btn" onclick="openVideo('https://www.youtube.com/embed/GOjWRiSFR1w')">▶ Ver Momento</button>
+      </div>
+    </div>
+    <div class="momento-card">
+      <div class="momento-bg momento-bg-2"><span class="momento-emoji">⚽</span></div>
+      <div class="momento-overlay">
+        <h3 class="momento-title">El Gol de James a Uruguay</h3>
+        <p class="momento-desc">Brasil 2014. La volea más bella de la historia del fútbol mundial. James Rodriguez inmortalizó a Colombia.</p>
+        <button class="momento-btn" onclick="openVideo('https://www.youtube.com/embed/1_F-CJSNOhY')">▶ Ver Gol</button>
+      </div>
+    </div>
+    <div class="momento-card">
+      <div class="momento-bg momento-bg-3"><span class="momento-emoji">🦂</span></div>
+      <div class="momento-overlay">
+        <h3 class="momento-title">El Escorpión de Higuita</h3>
+        <p class="momento-desc">1995. La atajada más famosa de la historia del fútbol. René Higuita y su jugada imposible.</p>
+        <button class="momento-btn" onclick="openVideo('https://www.youtube.com/embed/ePaQ1-L_gg4')">▶ Ver Atajada</button>
+      </div>
+    </div>
+    <div class="momento-card">
+      <div class="momento-bg momento-bg-4"><span class="momento-emoji">💛</span></div>
+      <div class="momento-overlay">
+        <h3 class="momento-title">Freddy Rincón vs Alemania</h3>
+        <p class="momento-desc">Italia 1990. El gol que clasificó a Colombia a octavos de final en el último minuto.</p>
+        <button class="momento-btn" onclick="openVideo('https://www.youtube.com/embed/Z3G-o5goFNU')">▶ Ver Gol</button>
+      </div>
+    </div>
+    <div class="momento-card">
+      <div class="momento-bg momento-bg-5"><span class="momento-emoji">🌀</span></div>
+      <div class="momento-overlay">
+        <h3 class="momento-title">La Magia de Valderrama</h3>
+        <p class="momento-desc">El Pibe Carlos Valderrama, el mejor jugador de la historia de Colombia y su magia única.</p>
+        <button class="momento-btn" onclick="openVideo('https://www.youtube.com/embed/4_5pP7zrVQA')">▶ Ver Magia</button>
+      </div>
+    </div>
+    <div class="momento-card">
+      <div class="momento-bg momento-bg-6"><span class="momento-emoji">🦁</span></div>
+      <div class="momento-overlay">
+        <h3 class="momento-title">Yerry Mina en Rusia 2018</h3>
+        <p class="momento-desc">El héroe de Colombia en los penales contra Inglaterra. Celebración y corazón de León.</p>
+        <button class="momento-btn" onclick="openVideo('https://www.youtube.com/embed/cz6wIoqOKO0')">▶ Ver Momento</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-header">
+    <p class="section-tag">Videos</p>
+    <h2 class="section-title">Goles & <span class="highlight">Momentos</span></h2>
+    <p class="section-desc">Los videos más épicos de la Selección Colombia. Click para ver en pantalla completa.</p>
+  </div>
+  <div class="videos-grid">
+    <div class="video-card" onclick="openVideo('https://www.youtube.com/embed/1_F-CJSNOhY')">
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/1_F-CJSNOhY" loading="lazy" title="Gol James Rodriguez"></iframe>
+        <div class="video-play-overlay"><div class="play-btn">▶</div></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">⚽ El Gol de James vs Uruguay – Brasil 2014</div>
+        <div class="video-sub">🏆 Mejor gol del torneo · 6,2M de vistas</div>
+      </div>
+    </div>
+    <div class="video-card" onclick="openVideo('https://www.youtube.com/embed/GOjWRiSFR1w')">
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/GOjWRiSFR1w" loading="lazy" title="Colombia 5-0 Argentina"></iframe>
+        <div class="video-play-overlay"><div class="play-btn">▶</div></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">🇦🇷 Colombia 5 – 0 Argentina · 1993</div>
+        <div class="video-sub">📅 5 Sep 1993 · Eliminatorias USA 94</div>
+      </div>
+    </div>
+    <div class="video-card" onclick="openVideo('https://www.youtube.com/embed/ePaQ1-L_gg4')">
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/ePaQ1-L_gg4" loading="lazy" title="Escorpion Higuita"></iframe>
+        <div class="video-play-overlay"><div class="play-btn">▶</div></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">🦂 El Escorpión de Higuita · 1995</div>
+        <div class="video-sub">🌍 La atajada más famosa del mundo</div>
+      </div>
+    </div>
+    <div class="video-card" onclick="openVideo('https://www.youtube.com/embed/Z3G-o5goFNU')">
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/Z3G-o5goFNU" loading="lazy" title="Gol Freddy Rincon"></iframe>
+        <div class="video-play-overlay"><div class="play-btn">▶</div></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">💛 Gol de Freddy Rincón vs Alemania · Italia 90</div>
+        <div class="video-sub">⚽ El gol de la clasificación histórica</div>
+      </div>
+    </div>
+    <div class="video-card" onclick="openVideo('https://www.youtube.com/embed/cz6wIoqOKO0')">
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/cz6wIoqOKO0" loading="lazy" title="Colombia vs Inglaterra 2018"></iframe>
+        <div class="video-play-overlay"><div class="play-btn">▶</div></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">🦁 Colombia vs Inglaterra – Rusia 2018</div>
+        <div class="video-sub">😱 Drama en los penales · Yerry Mina héroe</div>
+      </div>
+    </div>
+    <div class="video-card" onclick="openVideo('https://www.youtube.com/embed/4_5pP7zrVQA')">
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/4_5pP7zrVQA" loading="lazy" title="Magia Valderrama"></iframe>
+        <div class="video-play-overlay"><div class="play-btn">▶</div></div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">🌀 La Magia de Valderrama · El Pibe</div>
+        <div class="video-sub">🌟 El mejor jugador de la historia colombiana</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEYENDAS -->
+<section id="leyendas">
+  <div class="section-header">
+    <p class="section-tag">Leyendas</p>
+    <h2 class="section-title">Los <span class="highlight">Inmortales</span></h2>
+    <p class="section-desc">Los jugadores que escribieron la historia de la Selección Colombia con goles, magia y corazón.</p>
+  </div>
+  <div class="leyendas-grid">
+    <div class="leyenda-card" onclick="openPlayer('valderrama')">
+      <div class="leyenda-avatar" style="background:linear-gradient(135deg,#FFD500,#b8860b);">🦁</div>
+      <div class="leyenda-num">#10</div>
+      <div class="leyenda-name">Carlos Valderrama</div>
+      <div class="leyenda-role">Mediocampista / El Pibe</div>
+      <div class="leyenda-goals">111</div>
+      <div class="leyenda-goals-label">partidos internacionales</div>
+      <div class="leyenda-quote">"El fútbol es magia, y la magia no se aprende"</div>
+    </div>
+    <div class="leyenda-card" onclick="openPlayer('james')">
+      <div class="leyenda-avatar" style="background:linear-gradient(135deg,#0033A0,#001a66);">👑</div>
+      <div class="leyenda-num">#10</div>
+      <div class="leyenda-name">James Rodríguez</div>
+      <div class="leyenda-role">Mediocampista ofensivo</div>
+      <div class="leyenda-goals">23</div>
+      <div class="leyenda-goals-label">goles con la selección</div>
+      <div class="leyenda-quote">"Dios me puso aquí para jugar fútbol"</div>
+    </div>
+    <div class="leyenda-card" onclick="openPlayer('falcao')">
+      <div class="leyenda-avatar" style="background:linear-gradient(135deg,#CE1126,#800010);">🐅</div>
+      <div class="leyenda-num">#9</div>
+      <div class="leyenda-name">Radamel Falcao</div>
+      <div class="leyenda-role">Delantero / El Tigre</div>
+      <div class="leyenda-goals">36</div>
+      <div class="leyenda-goals-label">goles – récord histórico</div>
+      <div class="leyenda-quote">"El trabajo y el sacrificio nunca mienten"</div>
+    </div>
+    <div class="leyenda-card" onclick="openPlayer('higuita')">
+      <div class="leyenda-avatar" style="background:linear-gradient(135deg,#1a7a1a,#0a3d0a);">🦂</div>
+      <div class="leyenda-num">#1</div>
+      <div class="leyenda-name">René Higuita</div>
+      <div class="leyenda-role">Portero / El Loco</div>
+      <div class="leyenda-goals">68</div>
+      <div class="leyenda-goals-label">partidos internacionales</div>
+      <div class="leyenda-quote">"Yo no jugaba de portero, yo jugaba al fútbol"</div>
+    </div>
+    <div class="leyenda-card" onclick="openPlayer('rincon')">
+      <div class="leyenda-avatar" style="background:linear-gradient(135deg,#FFD500,#0033A0);">⚡</div>
+      <div class="leyenda-num">#8</div>
+      <div class="leyenda-name">Freddy Rincón</div>
+      <div class="leyenda-role">Mediocampista / Coloso</div>
+      <div class="leyenda-goals">17</div>
+      <div class="leyenda-goals-label">goles internacionales</div>
+      <div class="leyenda-quote">"El fútbol fue lo que me dio todo en la vida"</div>
+    </div>
+    <div class="leyenda-card" onclick="openPlayer('asprilla')">
+      <div class="leyenda-avatar" style="background:linear-gradient(135deg,#6600cc,#330066);">🌟</div>
+      <div class="leyenda-num">#11</div>
+      <div class="leyenda-name">Faustino Asprilla</div>
+      <div class="leyenda-role">Delantero / El Tino</div>
+      <div class="leyenda-goals">20</div>
+      <div class="leyenda-goals-label">goles internacionales</div>
+      <div class="leyenda-quote">"Era imprevisible porque yo mismo no sabía lo que iba a hacer"</div>
+    </div>
+    <div class="leyenda-card" onclick="openPlayer('cuadrado')">
+      <div class="leyenda-avatar" style="background:linear-gradient(135deg,#FF8C00,#8B4500);">💨</div>
+      <div class="leyenda-num">#11</div>
+      <div class="leyenda-name">Juan Cuadrado</div>
+      <div class="leyenda-role">Extremo / El Panita</div>
+      <div class="leyenda-goals">17</div>
+      <div class="leyenda-goals-label">goles internacionales</div>
+      <div class="leyenda-quote">"Representar a Colombia es el mayor honor"</div>
+    </div>
+  </div>
+</section>
+
+<!-- HINCHADA -->
+<section id="hinchada">
+  <div class="section-header">
+    <p class="section-tag">La Hinchada</p>
+    <h2 class="section-title">La <span class="highlight">Fiebre</span> en las Gradas</h2>
+    <p class="section-desc">El alma de Colombia no está solo en la cancha. Está en los cánticos, las banderas y el corazón de cada hincha.</p>
+  </div>
+  <div class="hinchada-grid">
+    <div class="hinchada-text">
+      <h3>🇨🇴 Somos la Fiebre Amarilla</h3>
+      <p>La hinchada de la Selección Colombia es reconocida en todo el mundo por su pasión, creatividad y fervor. Los colores amarillo, azul y rojo ondean en cada rincón del planeta cada vez que Colombia juega.</p>
+      <p>Desde el estadio El Campín en Bogotá hasta los rincones más lejanos del mundo, la Fiebre Amarilla hace vibrar las tribunas con cánticos que llevan el espíritu colombiano por encima de todo.</p>
+      <ul class="cantos-list">
+        <li class="canto-item" onclick="toggleSound()">
+          <div class="canto-icon">🎵</div>
+          <div>
+            <div class="canto-name">Colombia, tierra querida</div>
+            <div class="canto-type">Himno de las tribunas</div>
+          </div>
+        </li>
+        <li class="canto-item" onclick="toggleSound()">
+          <div class="canto-icon">📣</div>
+          <div>
+            <div class="canto-name">¡Chi chi chi, Co Co Co!</div>
+            <div class="canto-type">Cántico clásico</div>
+          </div>
+        </li>
+        <li class="canto-item" onclick="toggleSound()">
+          <div class="canto-icon">🥁</div>
+          <div>
+            <div class="canto-name">Esa noche me acuerdo</div>
+            <div class="canto-type">Canción mundialista</div>
+          </div>
+        </li>
+        <li class="canto-item" onclick="openVideo('https://www.youtube.com/embed/R_dSNfJSgJQ')">
+          <div class="canto-icon">▶</div>
+          <div>
+            <div class="canto-name">Ver ambiente de la hinchada</div>
+            <div class="canto-type">Video en YouTube</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="hinchada-visual">
+      <div class="hinchada-card" onclick="launchConfetti()">
+        <span>🇨🇴</span>
+        <span class="hinchada-card-title">La Bandera</span>
+      </div>
+      <div class="hinchada-card" style="background:linear-gradient(135deg,#0033A0,#001a66);">
+        <span>🥁</span>
+        <span class="hinchada-card-title" style="color:rgba(255,255,255,0.7);">Los Tambores</span>
+      </div>
+      <div class="hinchada-card" style="background:linear-gradient(135deg,#CE1126,#800010);">
+        <span>🔥</span>
+        <span class="hinchada-card-title" style="color:rgba(255,255,255,0.7);">La Pasión</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROXIMO MUNDIAL -->
+<section id="proximo">
+  <div class="section-header">
+    <p class="section-tag">Mundial 2026</p>
+    <h2 class="section-title">El Próximo <span class="highlight">Sueño</span></h2>
+    <p class="section-desc">La Copa del Mundo 2026 se juega en Estados Unidos, Canadá y México. Colombia está lista.</p>
+  </div>
+  <div class="mundial-hero">
+    <div>
+      <div class="mundial-countdown">
+        <h3>⏱ Cuenta regresiva al Mundial 2026</h3>
+        <div class="cd-grid">
+          <div class="cd-box"><span class="cd-num" id="m-dias">--</span><span class="cd-lbl">Días</span></div>
+          <div class="cd-box"><span class="cd-num" id="m-horas">--</span><span class="cd-lbl">Horas</span></div>
+          <div class="cd-box"><span class="cd-num" id="m-min">--</span><span class="cd-lbl">Minutos</span></div>
+          <div class="cd-box"><span class="cd-num" id="m-seg">--</span><span class="cd-lbl">Segundos</span></div>
+        </div>
+      </div>
+      <br>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,213,0,0.15);border-radius:12px;padding:1.5rem;">
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:var(--amarillo);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;">📊 Encuesta de Hinchas</h3>
+        <div class="encuesta-pregunta" style="font-size:1.1rem;">¿Hasta dónde llegará Colombia en el 2026?</div>
+        <button class="opcion-btn" onclick="votar(this, 37)">🥇 Campeones del Mundo <div class="opcion-bar"><div class="opcion-fill" style="width:37%"></div></div><span class="opcion-pct">37%</span></button>
+        <button class="opcion-btn" onclick="votar(this, 28)">🥈 Final <div class="opcion-bar"><div class="opcion-fill" style="width:28%"></div></div><span class="opcion-pct">28%</span></button>
+        <button class="opcion-btn" onclick="votar(this, 22)">🥉 Semifinal <div class="opcion-bar"><div class="opcion-fill" style="width:22%"></div></div><span class="opcion-pct">22%</span></button>
+        <button class="opcion-btn" onclick="votar(this, 13)">⚽ Cuartos de final <div class="opcion-bar"><div class="opcion-fill" style="width:13%"></div></div><span class="opcion-pct">13%</span></button>
+      </div>
+    </div>
+    <div class="mundial-info">
+      <h3>Colombia 2026</h3>
+      <div class="subtitle">🏟️ USA · Canadá · México</div>
+      <p style="font-size:0.9rem;color:rgba(245,245,240,0.6);line-height:1.7;margin-bottom:1.5rem;">Con Falcao, James, Cuadrado y la nueva generación de talentos, Colombia llega al Mundial 2026 como una de las selecciones más temidas de Sudamérica.</p>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.15em;color:var(--amarillo);text-transform:uppercase;margin-bottom:1rem;">⭐ Nuevas Promesas</div>
+      <div class="promesas-grid">
+        <div class="promesa-item">
+          <div class="promesa-num">19</div>
+          <div><div class="promesa-name">Luis Díaz</div><div class="promesa-pos">Extremo · Liverpool FC</div></div>
+        </div>
+        <div class="promesa-item">
+          <div class="promesa-num">22</div>
+          <div><div class="promesa-name">Jhon Córdoba</div><div class="promesa-pos">Delantero · Krasnodar</div></div>
+        </div>
+        <div class="promesa-item">
+          <div class="promesa-num">21</div>
+          <div><div class="promesa-name">Richard Ríos</div><div class="promesa-pos">Mediocampista · Palmeiras</div></div>
+        </div>
+        <div class="promesa-item">
+          <div class="promesa-num">23</div>
+          <div><div class="promesa-name">Daniel Muñoz</div><div class="promesa-pos">Lateral · Crystal Palace</div></div>
+        </div>
+        <div class="promesa-item">
+          <div class="promesa-num">20</div>
+          <div><div class="promesa-name">Jhon Jáder Durán</div><div class="promesa-pos">Delantero · Al-Qadsiah</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTICIAS -->
+<section id="noticias">
+  <div class="section-header">
+    <p class="section-tag">Blog & Noticias</p>
+    <h2 class="section-title">Lo Último de la <span class="highlight">Tricolor</span></h2>
+  </div>
+  <div class="noticias-grid">
+    <div class="noticia-featured">
+      <div class="noticia-img">🏆</div>
+      <div class="noticia-body">
+        <div class="noticia-cat">Análisis Táctico</div>
+        <h3 class="noticia-title">Colombia en el Mundial 2026: ¿Puede ser Campeón?</h3>
+        <p class="noticia-excerpt">Con la mejor generación de jugadores en décadas, Colombia llega al Mundial 2026 con ilusiones reales de ir más allá de los cuartos de final. Analizamos las fortalezas, debilidades y el camino posible de la Tricolor.</p>
+        <div class="noticia-meta">📅 24 Mayo 2026 · ⏱ 8 min lectura · ✍️ Redacción Fiebre Amarilla</div>
+      </div>
+    </div>
+    <div class="noticias-sidebar">
+      <div class="noticia-mini">
+        <div class="noticia-mini-img" style="background:linear-gradient(135deg,#FFD500,#b8860b);">⚽</div>
+        <div>
+          <div class="noticia-mini-cat">Convocatoria</div>
+          <div class="noticia-mini-title">Néstor Lorenzo da su lista final para el Mundial 2026</div>
+          <div class="noticia-mini-date">📅 20 Mayo 2026</div>
+        </div>
+      </div>
+      <div class="noticia-mini">
+        <div class="noticia-mini-img" style="background:linear-gradient(135deg,#CE1126,#800010);">🔥</div>
+        <div>
+          <div class="noticia-mini-cat">Eliminatorias</div>
+          <div class="noticia-mini-title">Colombia terminó invicta las eliminatorias CONMEBOL</div>
+          <div class="noticia-mini-date">📅 15 Nov 2025</div>
+        </div>
+      </div>
+      <div class="noticia-mini">
+        <div class="noticia-mini-img" style="background:linear-gradient(135deg,#0033A0,#001a66);">👑</div>
+        <div>
+          <div class="noticia-mini-cat">Jugador</div>
+          <div class="noticia-mini-title">Luis Díaz en su mejor nivel: 22 goles en la Premier League</div>
+          <div class="noticia-mini-date">📅 10 Abr 2026</div>
+        </div>
+      </div>
+      <div class="noticia-mini">
+        <div class="noticia-mini-img" style="background:linear-gradient(135deg,#1a7a1a,#042804);">🏟️</div>
+        <div>
+          <div class="noticia-mini-cat">Mundial</div>
+          <div class="noticia-mini-title">El grupo de Colombia en el Mundial 2026: rivals y calendario</div>
+          <div class="noticia-mini-date">📅 3 Dic 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMUNIDAD -->
+<section id="comunidad">
+  <div class="section-header">
+    <p class="section-tag">Comunidad</p>
+    <h2 class="section-title">La Voz de los <span class="highlight">Hinchas</span></h2>
+    <p class="section-desc">Aquí manda la hinchada. Vota, opina y siente la Fiebre Amarilla.</p>
+  </div>
+  <div style="max-width:700px;margin:0 auto;">
+    <div class="encuesta-box">
+      <div class="encuesta-pregunta">⭐ ¿Cuál fue el mejor momento de Colombia en un Mundial?</div>
+      <button class="opcion-btn" onclick="votar(this, 54)">⚽ Gol de James vs Uruguay – Brasil 2014 <div class="opcion-bar"><div class="opcion-fill" style="width:54%"></div></div><span class="opcion-pct">54%</span></button>
+      <button class="opcion-btn" onclick="votar(this, 22)">💥 Colombia 5-0 Argentina – 1993 <div class="opcion-bar"><div class="opcion-fill" style="width:22%"></div></div><span class="opcion-pct">22%</span></button>
+      <button class="opcion-btn" onclick="votar(this, 14)">⚡ Gol de Rincón vs Alemania – Italia 90 <div class="opcion-bar"><div class="opcion-fill" style="width:14%"></div></div><span class="opcion-pct">14%</span></button>
+      <button class="opcion-btn" onclick="votar(this, 10)">🦂 Escorpión de Higuita – 1995 <div class="opcion-bar"><div class="opcion-fill" style="width:10%"></div></div><span class="opcion-pct">10%</span></button>
+    </div>
+    <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-primary" onclick="launchConfetti()">🎉 ¡Lanzar Confeti!</button>
+      <button class="btn-outline" onclick="openVideo('https://www.youtube.com/embed/1_F-CJSNOhY')">▶ Ver Gol de James</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">La <span>Fiebre</span> Amarilla</div>
+  <p class="footer-sub">🇨🇴 Un homenaje a la Selección Colombia y su apasionada hinchada</p>
+  <ul class="footer-links">
+    <li><a href="#hero">Inicio</a></li>
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#momentos">Momentos</a></li>
+    <li><a href="#leyendas">Leyendas</a></li>
+    <li><a href="#hinchada">Hinchada</a></li>
+    <li><a href="#proximo">Mundial 2026</a></li>
+    <li><a href="#noticias">Noticias</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 La Fiebre Amarilla · Hecho con 💛❤️💙 para Colombia · Datos con fines informativos e históricos</p>
+</footer>
+
+<script>
+// LOADER
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+    createParticles();
+    launchConfetti();
+  }, 1500);
+});
+
+// PARTICLES
+function createParticles() {
+  const c = document.getElementById('particles');
+  for(let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-duration:${5+Math.random()*10}s;
+      animation-delay:${Math.random()*5}s;
+      width:${2+Math.random()*4}px;
+      height:${2+Math.random()*4}px;
+      background:${['#FFD500','#CE1126','#0033A0','#fff'][Math.floor(Math.random()*4)]};
+    `;
+    c.appendChild(p);
+  }
+}
+
+// NAVBAR
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// MENU
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('nav-links').classList.remove('open');
+}
+
+// COUNTDOWN
+function updateCountdown() {
+  const target = new Date('2026-06-11T12:00:00');
+  const now = new Date();
+  const diff = target - now;
+  if(diff <= 0) return;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const pad = n => String(n).padStart(2,'0');
+  ['cd-dias','m-dias'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=d; });
+  ['cd-horas','m-horas'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=pad(h); });
+  ['cd-min','m-min'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=pad(m); });
+  ['cd-seg','m-seg'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=pad(s); });
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// LIGHTBOX
+function openVideo(url) {
+  const lb = document.getElementById('lightbox');
+  const frame = document.getElementById('lightbox-frame');
+  frame.src = url + '?autoplay=1';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-frame').src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click', e => {
+  if(e.target === e.currentTarget) closeLightbox();
+});
+
+// MODAL JUGADORES
+const players = {
+  valderrama: {
+    emoji:'🦁', name:'Carlos Valderrama', years:'1985–1998',
+    stats:[{n:'111',l:'Partidos'},{n:'11',l:'Goles'},{n:'3',l:'Mundiales'}],
+    quote:'"El fútbol es magia, y la magia no se aprende, se nace con ella."',
+    desc:'Carlos "El Pibe" Valderrama es el jugador más grande de la historia del fútbol colombiano. Su cabellera rubia, su visión de juego y su capacidad para crear oportunidades lo convirtieron en un ícono mundial. Jugó tres mundiales con Colombia y es considerado el mejor jugador latinoamericano de la historia por muchos expertos.'
+  },
+  james: {
+    emoji:'👑', name:'James Rodríguez', years:'2012–presente',
+    stats:[{n:'23',l:'Goles'},{n:'94',l:'Partidos'},{n:'2',l:'Mundiales'}],
+    quote:'"Dios me puso aquí para jugar fútbol y yo lo hago con el corazón."',
+    desc:'James Rodríguez fue la revelación del Mundial Brasil 2014, donde ganó la Bota de Oro con 6 goles y fue elegido el mejor jugador del torneo. Su gol de volea contra Uruguay es considerado uno de los mejores goles de la historia. Después del Mundial fichó por el Real Madrid y se convirtió en un ídolo global.'
+  },
+  falcao: {
+    emoji:'🐅', name:'Radamel Falcao García', years:'2007–presente',
+    stats:[{n:'36',l:'Goles'},{n:'109',l:'Partidos'},{n:'1',l:'Mundiales'}],
+    quote:'"El trabajo y el sacrificio nunca mienten. Dios recompensa el esfuerzo."',
+    desc:'Radamel "El Tigre" Falcao es el máximo goleador histórico de la Selección Colombia con 36 goles. Su olfato goleador, potencia y definición lo convirtieron en uno de los mejores delanteros del mundo. Lamentablemente se perdió el Mundial de Brasil 2014 por lesión, uno de los momentos más dolorosos para los hinchas colombianos.'
+  },
+  higuita: {
+    emoji:'🦂', name:'René Higuita', years:'1987–1999',
+    stats:[{n:'68',l:'Partidos'},{n:'42',l:'Penales Ataj.'},{n:'1',l:'Escorpión'}],
+    quote:'"Yo no me consideraba solo un portero. Yo jugaba al fútbol en la cancha entera."',
+    desc:'René Higuita, "El Loco", revolucionó la portería mundial con su estilo único de juego. No solo atajaba, sino que salía al juego, driblaba y hasta anotaba goles. Su "atajada del escorpión" en Wembley en 1995 es la jugada más famosa de la historia del fútbol colombiano y una de las más recordadas del fútbol mundial.'
+  },
+  rincon: {
+    emoji:'⚡', name:'Freddy Eusebio Rincón', years:'1990–2001',
+    stats:[{n:'17',l:'Goles'},{n:'84',l:'Partidos'},{n:'3',l:'Mundiales'}],
+    quote:'"El fútbol fue lo que me dio todo en la vida y todo se lo debo a él."',
+    desc:'Freddy Rincón, "El Coloso de Buenaventura", es recordado eternamente por su gol ante Alemania en el último minuto de Italia 1990 que clasificó a Colombia a octavos de final. Jugador completo, fuerte y técnico, fue uno de los mejores mediocampistas de su generación en América Latina.'
+  },
+  asprilla: {
+    emoji:'🌟', name:'Faustino Asprilla', years:'1993–2001',
+    stats:[{n:'20',l:'Goles'},{n:'57',l:'Partidos'},{n:'2',l:'Mundiales'}],
+    quote:'"Era imprevisible porque yo mismo no sabía lo que iba a hacer en el campo."',
+    desc:'Faustino "El Tino" Asprilla fue uno de los delanteros más explosivos y creativos del fútbol colombiano. Su velocidad, habilidad y gol eran letales. Brilló en el Newcastle United y la Parma de Italia. En el Mundial de USA 1994 fue uno de los jugadores más destacados de la selección colombiana.'
+  },
+  cuadrado: {
+    emoji:'💨', name:'Juan Guillermo Cuadrado', years:'2013–presente',
+    stats:[{n:'17',l:'Goles'},{n:'103',l:'Partidos'},{n:'2',l:'Mundiales'}],
+    quote:'"Representar a Colombia es el mayor honor que puede tener un futbolista."',
+    desc:'Juan Cuadrado "El Panita" es uno de los extremos más veloces y habilidosos de la historia del fútbol colombiano. Con la Selección ha participado en dos mundiales y ha sido pieza clave en las clasificaciones. Su carrera en la Juventus de Italia lo consagró como uno de los mejores laterales-extremos del mundo.'
+  }
+};
+
+function openPlayer(id) {
+  const p = players[id];
+  if(!p) return;
+  document.getElementById('modal-body').innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-player-emoji">${p.emoji}</div>
+    <div class="modal-player-name">${p.name}</div>
+    <div class="modal-player-years">🇨🇴 ${p.years}</div>
+    <div class="modal-stats">
+      ${p.stats.map(s=>`<div class="modal-stat"><div class="modal-stat-num">${s.n}</div><div class="modal-stat-lbl">${s.l}</div></div>`).join('')}
+    </div>
+    <div class="modal-quote">${p.quote}</div>
+    <div class="modal-desc">${p.desc}</div>
+  `;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modal').addEventListener('click', e => {
+  if(e.target === e.currentTarget) closeModal();
+});
+
+// TIMELINE ANIMATION
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.2 });
+document.querySelectorAll('.tl-item').forEach(el => observer.observe(el));
+
+// ENCUESTAS
+function votar(btn, pct) {
+  const section = btn.closest('.encuesta-box, section div');
+  const btns = section.querySelectorAll('.opcion-btn');
+  btns.forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// CONFETTI
+function launchConfetti() {
+  const colors = ['#FFD500','#CE1126','#0033A0','#fff','#FFD500','#FFD500'];
+  for(let i = 0; i < 80; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.cssText = `
+        left:${Math.random()*100}%;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        width:${6+Math.random()*10}px;
+        height:${6+Math.random()*10}px;
+        border-radius:${Math.random()>0.5?'50%':'2px'};
+        animation-duration:${2+Math.random()*2}s;
+        animation-delay:${Math.random()*1}s;
+      `;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 4000);
+    }, i * 30);
+  }
+}
+
+// SOUND (visual toggle simulation)
+let soundOn = false;
+function toggleSound() {
+  soundOn = !soundOn;
+  document.getElementById('sound-btn').textContent = soundOn ? '🔇' : '🔊';
+  document.getElementById('sound-btn').style.background = soundOn ? '#CE1126' : '#FFD500';
+  if(soundOn) {
+    const note = document.createElement('div');
+    note.style.cssText = `
+      position:fixed;bottom:5rem;right:2rem;z-index:600;
+      background:rgba(10,10,10,0.9);border:1px solid rgba(255,213,0,0.3);
+      border-radius:8px;padding:0.8rem 1rem;
+      font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;
+      color:#FFD500;
+      animation:fadeInUp 0.3s ease;
+    `;
+    note.textContent = '🎵 ¡Sonido ambiente activado!';
+    document.body.appendChild(note);
+    setTimeout(() => note.remove(), 2500);
+  }
+}
+</script>
+</body>
+</html>
