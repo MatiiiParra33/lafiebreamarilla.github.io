@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Chile 1962 – La Fiebre Amarilla</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--am:#FFD500;--az:#0033A0;--ro:#CE1126;--ne:#0a0a0a;--gr:#1a1a2e;--bl:#f5f5f0;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--ne);color:var(--bl);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+img{display:block;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:.7rem 2rem;background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,213,0,0.12);display:flex;align-items:center;gap:1rem;}
+.nav-back{color:var(--am);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:.3rem;transition:opacity .2s;}
+.nav-back:hover{opacity:.7;}
+.nav-logo{font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:700;color:var(--am);text-decoration:none;margin-left:auto;}
+.nav-logo span{color:var(--ro);}
+.container{max-width:1100px;margin:0 auto;}
+.tag{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--am);margin-bottom:.5rem;}
+h2.sec{font-family:'Oswald',sans-serif;font-size:clamp(2rem,5vw,3.2rem);margin-bottom:2rem;}
+.hl{color:var(--am);}
+section{padding:5rem 1.5rem 3rem;}
+section:nth-child(even){background:var(--gr);}
+footer{background:#050508;border-top:1px solid rgba(255,213,0,.1);padding:2rem;text-align:center;font-size:.8rem;color:rgba(245,245,240,.3);}
+footer a{color:var(--am);text-decoration:none;}
+/* LIGHTBOX */
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;}
+#lb.open{display:flex;}
+#lb iframe{width:min(900px,90vw);aspect-ratio:16/9;border:none;border-radius:8px;}
+#lb-x{position:absolute;top:2rem;right:2rem;background:rgba(255,255,255,.1);border:none;border-radius:50%;width:48px;height:48px;color:#fff;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#lb-x:hover{background:var(--ro);}
+/* IMG helpers */
+.img-cover{width:100%;height:100%;object-fit:cover;}
+.img-flag{width:60px;height:40px;object-fit:cover;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+.img-flag-sm{width:36px;height:24px;object-fit:cover;border-radius:3px;}
+.img-player{width:80px;height:96px;object-fit:cover;border-radius:8px;}
+.img-player-lg{width:120px;height:144px;object-fit:cover;border-radius:10px;}
+.img-stadium{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;}
+.img-mascota{width:120px;height:144px;object-fit:cover;border-radius:10px;}
+.img-logo{width:80px;height:80px;object-fit:cover;border-radius:8px;}
+</style>
+<style>
+.hero-m{min-height:55vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#1a5c1a 0%,#0d3d0d 50%,var(--ne) 100%);
+  position:relative;overflow:hidden;padding:5rem 2rem 3rem;text-align:center;}
+.hero-m::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(255,213,0,.12),transparent 60%);}
+.hero-m::after{content:'🇨🇱';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);font-size:18rem;opacity:.05;pointer-events:none;}
+.hero-cnt{position:relative;z-index:1;}
+.hflag{font-size:3.5rem;margin-bottom:.5rem;}
+.hyear{font-family:'Oswald',sans-serif;font-size:clamp(4rem,12vw,9rem);font-weight:700;
+  line-height:.9;color:var(--am);text-shadow:0 0 60px rgba(255,213,0,.4);}
+.hsub{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;
+  color:rgba(245,245,240,.7);letter-spacing:.05em;margin:.5rem 0 1.5rem;text-transform:uppercase;}
+.hbadges{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.2rem;}
+.hbadge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  padding:.35rem .9rem;border-radius:100px;font-size:.82rem;color:rgba(245,245,240,.8);}
+.sstrip{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;}
+.sb{background:rgba(255,213,0,.1);border:1px solid rgba(255,213,0,.2);
+  border-radius:8px;padding:.7rem 1rem;text-align:center;min-width:65px;}
+.sn{font-family:'Oswald',sans-serif;font-size:1.7rem;font-weight:700;color:var(--am);line-height:1;}
+.sl{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,245,240,.4);margin-top:.2rem;}
+/* SUBNAV */
+.subnav{background:#111;border-bottom:1px solid rgba(255,213,0,.1);
+  position:sticky;top:49px;z-index:100;overflow-x:auto;}
+.subnav-inner{display:flex;white-space:nowrap;max-width:1100px;margin:0 auto;}
+.subnav a{display:inline-flex;align-items:center;padding:.75rem 1.1rem;
+  color:rgba(245,245,240,.55);text-decoration:none;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;
+  letter-spacing:.04em;text-transform:uppercase;
+  border-bottom:2px solid transparent;transition:all .2s;}
+.subnav a:hover{color:var(--am);border-bottom-color:var(--am);}
+/* PARTIDOS */
+.plist{display:flex;flex-direction:column;gap:1.5rem;}
+.pcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;transition:border-color .3s;}
+.pcard:hover{border-color:rgba(255,213,0,.3);}
+.phead{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;gap:.4rem;}
+.pmeta{display:flex;gap:1rem;flex-wrap:wrap;}
+.pfecha,.pestadio{font-size:.78rem;color:rgba(245,245,240,.4);}
+.pbadge{padding:.3rem .8rem;border-radius:100px;font-size:.78rem;font-weight:700;font-family:'Barlow Condensed',sans-serif;}
+.pmarcador{display:flex;align-items:center;justify-content:center;gap:2rem;padding:2rem 1.5rem;flex-wrap:wrap;}
+.pteam{display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:100px;}
+.ptnombre{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;color:rgba(245,245,240,.8);text-align:center;}
+.presultado{font-family:'Oswald',sans-serif;font-size:3rem;font-weight:700;color:var(--am);min-width:130px;text-align:center;}
+.ggrid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.06);}
+.gcol{padding:1rem 1.5rem;}
+.gcol:first-child{border-right:1px solid rgba(255,255,255,.06);}
+.gtitle{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,245,240,.4);margin-bottom:.4rem;}
+.gi{font-size:.83rem;color:rgba(245,245,240,.7);padding:.18rem 0;}
+.sg{color:rgba(245,245,240,.3);font-style:italic;}
+.presumen{padding:1rem 1.5rem;font-size:.88rem;color:rgba(245,245,240,.6);line-height:1.7;border-top:1px solid rgba(255,255,255,.06);}
+.btnvid{display:block;width:100%;padding:.9rem;background:rgba(255,213,0,.08);border:none;border-top:1px solid rgba(255,213,0,.15);color:var(--am);font-family:'Barlow Condensed',sans-serif;font-size:.92rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background .3s;}
+.btnvid:hover{background:rgba(255,213,0,.18);}
+/* ESTADIOS */
+.egrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;}
+.ecard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;transition:all .3s;}
+.ecard:hover{border-color:rgba(255,213,0,.25);transform:translateY(-3px);}
+.einfo{padding:1rem;}
+.enombre{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--bl);}
+.eciudad{font-size:.8rem;color:rgba(245,245,240,.5);margin:.2rem 0;}
+.ecap{font-size:.78rem;color:rgba(245,245,240,.4);}
+/* MASCOTA / CAMPEON / CANCION */
+.info3{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem;}
+.info3card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;text-align:center;transition:all .3s;}
+.info3card:hover{border-color:rgba(255,213,0,.2);transform:translateY(-3px);}
+.info3img{width:100%;aspect-ratio:3/4;object-fit:cover;max-height:180px;}
+.info3body{padding:1.2rem;}
+.info3tit{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;color:var(--bl);}
+.info3sub{font-size:.82rem;color:rgba(245,245,240,.5);margin-top:.3rem;}
+.info3tag{font-size:.68rem;letter-spacing:.2em;color:var(--am);text-transform:uppercase;font-weight:700;margin-bottom:.4rem;}
+/* CAMPEON */
+.campeon-box{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
+  background:rgba(255,213,0,.06);border:1px solid rgba(255,213,0,.2);border-radius:12px;padding:1.5rem;max-width:500px;}
+.campeon-img{width:80px;height:54px;object-fit:cover;border-radius:6px;}
+/* GOLEADORES */
+.gollist{display:flex;flex-direction:column;gap:1rem;max-width:650px;}
+.golcard{display:flex;align-items:center;gap:1.2rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:1rem;transition:all .3s;}
+.golcard:hover{background:rgba(255,213,0,.05);border-color:rgba(255,213,0,.2);}
+.golnum{font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;color:var(--am);min-width:2.2rem;line-height:1;}
+.golnombre{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;color:var(--bl);}
+.golnota{font-size:.78rem;color:rgba(245,245,240,.45);margin-top:.15rem;}
+/* PLANTILLA */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;}
+.jcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:1.2rem 1rem;text-align:center;transition:all .3s;}
+.jcard:hover{background:rgba(255,213,0,.06);border-color:rgba(255,213,0,.2);transform:translateY(-3px);}
+.jnum{font-family:'Oswald',sans-serif;font-size:1.6rem;font-weight:700;color:var(--am);}
+.jnombre{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;color:var(--bl);margin:.25rem 0;}
+.jpos{font-size:.72rem;font-weight:700;letter-spacing:.1em;}
+/* RESPONSIVE */
+@media(max-width:580px){
+  .pmarcador{gap:1rem;}
+  .presultado{font-size:2rem;min-width:90px;}
+  .ggrid{grid-template-columns:1fr;}
+  .gcol:first-child{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+}
+</style>
+</head>
+<body>
+
+<div id="lb">
+  <button id="lb-x" onclick="closeLB()">✕</button>
+  <iframe id="lb-f" allowfullscreen allow="autoplay"></iframe>
+</div>
+
+<nav>
+  <a href="la-fiebre-amarilla.html" class="nav-back">← Inicio</a>
+  <a href="la-fiebre-amarilla.html" class="nav-logo">La <span>Fiebre</span> Amarilla</a>
+</nav>
+
+<div class="hero-m">
+  <div class="hero-cnt">
+    <div class="hflag">🇨🇱</div>
+    <div class="hyear">Chile 1962</div>
+    <div class="hsub">El Debut Histórico</div>
+    <div class="hbadges">
+      <span class="hbadge">📅 30 mayo – 17 junio 1962</span>
+      <span class="hbadge">🏟️ Estadio Nacional, Santiago</span>
+      <span class="hbadge">👨‍💼 Adolfo Pedernera</span>
+      <span class="hbadge">🎯 Fase de Grupos</span>
+    </div>
+    <div class="sstrip"><div class="sb"><div class="sn">3</div><div class="sl">PJ</div></div><div class="sb"><div class="sn">0</div><div class="sl">G</div></div><div class="sb"><div class="sn">1</div><div class="sl">E</div></div><div class="sb"><div class="sn">2</div><div class="sl">P</div></div><div class="sb"><div class="sn">5</div><div class="sl">GF</div></div><div class="sb"><div class="sn">11</div><div class="sl">GC</div></div><div class="sb"><div class="sn">1</div><div class="sl">Pts</div></div></div>
+  </div>
+</div>
+
+<div class="subnav">
+  <div class="subnav-inner">
+    <a href="#p1">Partido 1</a><a href="#p2">Partido 2</a><a href="#p3">Partido 3</a>
+    <a href="#estadios">🏟️ Estadios</a>
+    <a href="#info3">🏆 Campeón</a>
+    <a href="#goleadores">⚽ Goles</a>
+    <a href="#plantilla">👥 Plantilla</a>
+  </div>
+</div>
+
+<!-- PARTIDOS -->
+<section id="partidos">
+  <div class="container">
+    <p class="tag">Resultados</p>
+    <h2 class="sec">Todos los <span class="hl">Partidos</span></h2>
+    <div class="plist">
+<div class="pcard" id="p1">
+  <div class="phead">
+    <div class="pmeta"><span class="pfecha">📅 30 Mayo 1962</span><span class="pestadio">🏟️ Estadio El Teniente, Rancagua</span></div>
+    <span class="pbadge" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444;">❌ Derrota</span>
+  </div>
+  <div class="pmarcador">
+    <div class="pteam">
+      <img src="assets/images/banderas/colombia.svg" class="img-flag" alt="Colombia" onerror="this.style.display='none'">
+      <div class="ptnombre">Colombia</div>
+    </div>
+    <div class="presultado">1 – 2</div>
+    <div class="pteam">
+      <img src="assets/images/banderas/uruguay.svg" class="img-flag" alt="Uruguay" onerror="this.style.display='none'">
+      <div class="ptnombre">Uruguay</div>
+    </div>
+  </div>
+  <div class="ggrid">
+    <div class="gcol"><div class="gtitle">🇨🇴 Goles Colombia</div><div class="gi">⚽ Marcos Coll (65')</div></div>
+    <div class="gcol"><div class="gtitle">Goles Rival</div><div class="gi">Cubilla (56')</div><div class="gi">Sasia (72')</div></div>
+  </div>
+  <div class="presumen">Colombia debutó en los mundiales ante Uruguay con derrota. Marcos Coll anotó el primer gol colombiano en una Copa del Mundo. El equipo mostró nerviosas ante la presión de la primera participación.</div>
+  <button class="btnvid" onclick="openLB('https://www.youtube.com/embed/1Zt36uAHC74')">▶ Ver Resumen en YouTube</button>
+</div>
+<div class="pcard" id="p2">
+  <div class="phead">
+    <div class="pmeta"><span class="pfecha">📅 3 Junio 1962</span><span class="pestadio">🏟️ Estadio El Teniente, Rancagua</span></div>
+    <span class="pbadge" style="background:#FFD50022;color:#FFD500;border:1px solid #FFD50044;">🟡 Empate</span>
+  </div>
+  <div class="pmarcador">
+    <div class="pteam">
+      <img src="assets/images/banderas/colombia.svg" class="img-flag" alt="Colombia" onerror="this.style.display='none'">
+      <div class="ptnombre">Colombia</div>
+    </div>
+    <div class="presultado">4 – 4</div>
+    <div class="pteam">
+      <img src="assets/images/banderas/rusia.svg" class="img-flag" alt="URSS" onerror="this.style.display='none'">
+      <div class="ptnombre">URSS</div>
+    </div>
+  </div>
+  <div class="ggrid">
+    <div class="gcol"><div class="gtitle">🇨🇴 Goles Colombia</div><div class="gi">⚽ Aceros (20')</div><div class="gi">⚽ Coll (68')</div><div class="gi">⚽ Rada (71')</div><div class="gi">⚽ Klinger (89')</div></div>
+    <div class="gcol"><div class="gtitle">Goles Rival</div><div class="gi">Ivanov (11')</div><div class="gi">Chislenko (28')</div><div class="gi">Ponedelnik (57')</div><div class="gi">Ivanov (76')</div></div>
+  </div>
+  <div class="presumen">¡El partido más épico del debut colombiano! Colombia remontó un 0-3 y empató 4-4 con la poderosa URSS. Marcos Coll anotó el único gol de tiro libre directo al portero en toda la historia de los Mundiales, ante el legendario Lev Yashin.</div>
+  <button class="btnvid" onclick="openLB('https://www.youtube.com/embed/1Zt36uAHC74')">▶ Ver Resumen en YouTube</button>
+</div>
+<div class="pcard" id="p3">
+  <div class="phead">
+    <div class="pmeta"><span class="pfecha">📅 7 Junio 1962</span><span class="pestadio">🏟️ Estadio El Teniente, Rancagua</span></div>
+    <span class="pbadge" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444;">❌ Derrota</span>
+  </div>
+  <div class="pmarcador">
+    <div class="pteam">
+      <img src="assets/images/banderas/colombia.svg" class="img-flag" alt="Colombia" onerror="this.style.display='none'">
+      <div class="ptnombre">Colombia</div>
+    </div>
+    <div class="presultado">0 – 5</div>
+    <div class="pteam">
+      <img src="assets/images/banderas/yugoslavia.svg" class="img-flag" alt="Yugoslavia" onerror="this.style.display='none'">
+      <div class="ptnombre">Yugoslavia</div>
+    </div>
+  </div>
+  <div class="ggrid">
+    <div class="gcol"><div class="gtitle">🇨🇴 Goles Colombia</div><div class="gi sg">Sin goles</div></div>
+    <div class="gcol"><div class="gtitle">Goles Rival</div><div class="gi">Jerkovic (2')</div><div class="gi">Galic (22')</div><div class="gi">Jerkovic (27')</div><div class="gi">Melic (54')</div><div class="gi">Jerkovic (75')</div></div>
+  </div>
+  <div class="presumen">Derrota contundente ante Yugoslavia que puso fin al debut colombiano. El equipo mostró las diferencias de nivel con las potencias europeas de la época.</div>
+  <button class="btnvid" onclick="openLB('https://www.youtube.com/embed/1Zt36uAHC74')">▶ Ver Resumen en YouTube</button>
+</div></div>
+  </div>
+</section>
+
+<!-- ESTADIOS -->
+<section id="estadios">
+  <div class="container">
+    <p class="tag">Escenarios</p>
+    <h2 class="sec">Estadios donde <span class="hl">jugó Colombia</span></h2>
+    <div class="egrid">
+<div class="ecard">
+  <img src="assets/images/estadios/estadio_rancagua.svg" class="img-stadium" alt="Estadio El Teniente" onerror="this.src='';this.style.background='#1a1a2e'">
+  <div class="einfo">
+    <div class="enombre">Estadio El Teniente</div>
+    <div class="eciudad">Rancagua · 🇨🇱 Chile</div>
+    <div class="ecap">🏟️ Cap. 18.000 · 📅 Los 3 partidos de Colombia</div>
+  </div>
+</div></div>
+  </div>
+</section>
+
+<!-- CAMPEON / MASCOTA / CANCION -->
+<section id="info3">
+  <div class="container">
+    <p class="tag">El Mundial</p>
+    <h2 class="sec">Campeón · Mascota · <span class="hl">Canción</span></h2>
+    <div class="info3">
+      <div class="info3card">
+        <img src="assets/images/banderas/brasil.svg" class="info3img" alt="Brasil 🇧🇷" style="object-fit:cover;max-height:160px;" onerror="this.style.display='none'">
+        <div class="info3body">
+          <div class="info3tag">🏆 Campeón del mundo</div>
+          <div class="info3tit">Brasil 🇧🇷</div>
+          <div class="info3sub">Tercera Copa del Mundo para Brasil. Garrincha fue la figura del torneo.</div>
+        </div>
+      </div>
+      <div class="info3card">
+        <img src="assets/images/mascotas/mascota_chile62.svg" class="info3img" alt="El Roto Chileno" style="max-height:160px;" onerror="this.style.display='none'">
+        <div class="info3body">
+          <div class="info3tag">🎭 Mascota oficial</div>
+          <div class="info3tit">El Roto Chileno</div>
+          <div class="info3sub">Personaje folclórico chileno. Primera mascota en la historia de los Mundiales.</div>
+        </div>
+      </div>
+      <div class="info3card" style="cursor:pointer;" onclick="openLB('https://www.youtube.com/embed/1Zt36uAHC74')">
+        <div style="aspect-ratio:3/4;max-height:160px;background:linear-gradient(135deg,#1a5c1a,#0d3d0d);display:flex;align-items:center;justify-content:center;font-size:4rem;">🎵</div>
+        <div class="info3body">
+          <div class="info3tag">🎶 Canción oficial</div>
+          <div class="info3tit">Fallaste Corazón</div>
+          <div class="info3sub">Música popular · ▶ Click para escuchar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOLEADORES -->
+<section id="goleadores">
+  <div class="container">
+    <p class="tag">Goleadores</p>
+    <h2 class="sec">Los que <span class="hl">Anotaron</span></h2>
+    <div class="gollist">
+<div class="golcard">
+  <img src="assets/images/jugadores/valderrama.svg" class="img-player" alt="Marcos Coll" onerror="this.style.display='none'">
+  <div>
+    <div class="golnum">2</div>
+    <div class="golnombre">Marcos Coll</div>
+    <div class="golnota">Gol al Yashin – único tiro libre directo histórico</div>
+  </div>
+</div>
+<div class="golcard">
+  <img src="assets/images/jugadores/valderrama.svg" class="img-player" alt="Efraín Aceros" onerror="this.style.display='none'">
+  <div>
+    <div class="golnum">1</div>
+    <div class="golnombre">Efraín Aceros</div>
+    <div class="golnota">Gol vs URSS</div>
+  </div>
+</div>
+<div class="golcard">
+  <img src="assets/images/jugadores/valderrama.svg" class="img-player" alt="Hernán Rada" onerror="this.style.display='none'">
+  <div>
+    <div class="golnum">1</div>
+    <div class="golnombre">Hernán Rada</div>
+    <div class="golnota">Gol vs URSS</div>
+  </div>
+</div>
+<div class="golcard">
+  <img src="assets/images/jugadores/valderrama.svg" class="img-player" alt="Marino Klinger" onerror="this.style.display='none'">
+  <div>
+    <div class="golnum">1</div>
+    <div class="golnombre">Marino Klinger</div>
+    <div class="golnota">Gol empate vs URSS</div>
+  </div>
+</div></div>
+  </div>
+</section>
+
+<!-- PLANTILLA -->
+<section id="plantilla">
+  <div class="container">
+    <p class="tag">Plantilla Oficial</p>
+    <h2 class="sec">La <span class="hl">Convocatoria</span></h2>
+    <p style="color:rgba(245,245,240,.5);margin-bottom:1.2rem;font-size:.9rem;">👨‍💼 DT: <strong style="color:var(--am)">Adolfo Pedernera</strong></p>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+      <span style="font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:4px;background:rgba(245,158,11,.15);color:#f59e0b;">■ GK</span>
+      <span style="font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:4px;background:rgba(59,130,246,.15);color:#3b82f6;">■ DEF</span>
+      <span style="font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:4px;background:rgba(34,197,94,.15);color:#22c55e;">■ MED</span>
+      <span style="font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:4px;background:rgba(239,68,68,.15);color:#ef4444;">■ DEL</span>
+    </div>
+    <div class="pgrid">
+<div class="jcard">
+  <img src="assets/images/jugadores/ospina.svg" class="img-player" alt="Antonio Rada" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#1</div>
+  <div class="jnombre">Antonio Rada</div>
+  <div class="jpos" style="color:#f59e0b">GK</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/cristian_zapata.svg" class="img-player" alt="Roberto Zuluaga" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#2</div>
+  <div class="jnombre">Roberto Zuluaga</div>
+  <div class="jpos" style="color:#3b82f6">DEF</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/cristian_zapata.svg" class="img-player" alt="Marco Aurelio Yepes" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#3</div>
+  <div class="jnombre">Marco Aurelio Yepes</div>
+  <div class="jpos" style="color:#3b82f6">DEF</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/cristian_zapata.svg" class="img-player" alt="Hector Klinger" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#4</div>
+  <div class="jnombre">Hector Klinger</div>
+  <div class="jpos" style="color:#3b82f6">DEF</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/aguilar.svg" class="img-player" alt="Hernán Rada" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#5</div>
+  <div class="jnombre">Hernán Rada</div>
+  <div class="jpos" style="color:#22c55e">MED</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/aguilar.svg" class="img-player" alt="Jaime Mosquera" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#6</div>
+  <div class="jnombre">Jaime Mosquera</div>
+  <div class="jpos" style="color:#22c55e">MED</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/rincon.svg" class="img-player" alt="Marcos Coll" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#7</div>
+  <div class="jnombre">Marcos Coll</div>
+  <div class="jpos" style="color:#22c55e">MED</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/asprilla.svg" class="img-player" alt="Efraín Aceros" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#8</div>
+  <div class="jnombre">Efraín Aceros</div>
+  <div class="jpos" style="color:#ef4444">DEL</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/asprilla.svg" class="img-player" alt="Marino Klinger" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#9</div>
+  <div class="jnombre">Marino Klinger</div>
+  <div class="jpos" style="color:#ef4444">DEL</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/asprilla.svg" class="img-player" alt="Héctor González" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#10</div>
+  <div class="jnombre">Héctor González</div>
+  <div class="jpos" style="color:#ef4444">DEL</div>
+</div>
+<div class="jcard">
+  <img src="assets/images/jugadores/asprilla.svg" class="img-player" alt="Jorge Llano" style="width:64px;height:76px;border-radius:6px;object-fit:cover;margin:0 auto .5rem;" onerror="this.style.display='none'">
+  <div class="jnum">#11</div>
+  <div class="jnombre">Jorge Llano</div>
+  <div class="jpos" style="color:#ef4444">DEL</div>
+</div></div>
+  </div>
+</section>
+
+<footer>
+  <a href="la-fiebre-amarilla.html">← Volver a La Fiebre Amarilla</a><br><br>
+  🇨🇴 La Fiebre Amarilla · Todos los datos son históricos e informativos
+</footer>
+
+<script>
+function openLB(url){document.getElementById('lb-f').src=url+'?autoplay=1';document.getElementById('lb').classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){document.getElementById('lb').classList.remove('open');document.getElementById('lb-f').src='';document.body.style.overflow='';}
+document.getElementById('lb').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLB();});
+</script>
+</body>
+</html>
