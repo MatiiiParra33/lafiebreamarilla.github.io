@@ -953,6 +953,89 @@ footer{
   .modal-stats{grid-template-columns:1fr 1fr;}
   .cd-grid{grid-template-columns:1fr 1fr;}
 }
+
+/* MUNDIALES GRID */
+.mundiales-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:1.5rem;
+  max-width:1100px;margin:0 auto;
+}
+.mundial-card{
+  position:relative;overflow:hidden;
+  border-radius:12px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+  transition:all 0.4s;
+  min-height:280px;
+}
+.mundial-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,213,0,0.5);
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(255,213,0,0.1);
+}
+.mc-year-bg{
+  position:absolute;top:-10px;right:-10px;
+  font-family:'Oswald',sans-serif;
+  font-size:7rem;font-weight:700;
+  color:rgba(255,255,255,0.03);
+  line-height:1;pointer-events:none;
+  transition:color 0.4s;
+}
+.mundial-card:hover .mc-year-bg{color:rgba(255,213,0,0.06);}
+.mc-badge-top{
+  background:var(--amarillo);
+  color:var(--negro);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.7rem;font-weight:700;
+  letter-spacing:0.15em;text-transform:uppercase;
+  padding:0.35rem 1rem;text-align:center;
+}
+.mc-content{padding:1.8rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;}
+.mc-flag{font-size:2.5rem;}
+.mc-year{
+  font-family:'Oswald',sans-serif;
+  font-size:1.8rem;font-weight:700;color:var(--blanco);
+  line-height:1;
+}
+.mc-sub{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:600;
+  color:rgba(245,245,240,0.5);
+  text-transform:uppercase;letter-spacing:0.05em;
+}
+.mc-stats-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;}
+.mc-stat{
+  background:rgba(255,255,255,0.07);
+  border-radius:4px;padding:0.25rem 0.5rem;
+  font-size:0.75rem;font-weight:600;
+  color:rgba(245,245,240,0.6);
+}
+.mc-highlight{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:700;
+  color:var(--amarillo);margin-top:0.5rem;
+}
+.mc-cta{
+  margin-top:auto;padding-top:1rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.9rem;font-weight:700;
+  color:rgba(255,213,0,0.5);
+  letter-spacing:0.05em;text-transform:uppercase;
+  transition:color 0.3s;
+}
+.mundial-card:hover .mc-cta{color:var(--amarillo);}
+.mc-featured{border-color:rgba(0,51,160,0.4);background:rgba(0,51,160,0.08);}
+.mc-featured:hover{border-color:rgba(0,51,160,0.7);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(0,51,160,0.2);}
+.mc-tragico{border-color:rgba(206,17,38,0.2);}
+.mc-oro{
+  border-color:rgba(255,213,0,0.3);
+  background:rgba(255,213,0,0.05);
+}
+.mc-oro:hover{box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 60px rgba(255,213,0,0.2);}
+
 </style>
 </head>
 <body>
@@ -1039,105 +1122,107 @@ footer{
   <div class="section-header">
     <p class="section-tag">Historia</p>
     <h2 class="section-title">Colombia en los <span class="highlight">Mundiales</span></h2>
-    <p class="section-desc">Seis participaciones, infinitas emociones. Una historia de sacrificio, talento y pasión colombiana.</p>
+    <p class="section-desc">Seis participaciones, infinitas emociones. Selecciona un mundial para ver todos los detalles: partidos, goles, estadios, plantilla y más.</p>
   </div>
-  <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/1Zt36uAHC74')">
-        <div class="tl-flag">🇨🇱</div>
-        <div class="tl-year">Chile 1962</div>
-        <div class="tl-world">Primera Participación</div>
-        <p class="tl-desc">El debut histórico de la Selección Colombia en un Mundial. Tres partidos, muchos aprendizajes y el comienzo de una historia épica. El gol de Marcos Coll al portero Lev Yashin fue el único gol de tiro libre directo en la historia de los mundiales.</p>
-        <div class="tl-stats">
-          <span class="tl-stat">PJ: 3</span>
-          <span class="tl-stat">0G · 1E · 2P</span>
-          <span class="tl-stat">4to lugar grupo</span>
-          <span class="tl-stat">⚽ 5 goles en contra</span>
+  <div class="mundiales-grid">
+
+    <a href="mundial-chile-1962.html" class="mundial-card">
+      <div class="mc-year-bg">1962</div>
+      <div class="mc-content">
+        <div class="mc-flag">🇨🇱</div>
+        <div class="mc-year">Chile 1962</div>
+        <div class="mc-sub">El Debut Histórico</div>
+        <div class="mc-stats-row">
+          <span class="mc-stat">3 PJ</span>
+          <span class="mc-stat">0G · 1E · 2P</span>
+          <span class="mc-stat">Fase Grupos</span>
         </div>
+        <div class="mc-highlight">⚽ Gol al Yashin</div>
+        <div class="mc-cta">Ver Mundial completo →</div>
       </div>
-      <div class="tl-spacer"></div>
-      <div class="tl-dot"></div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-spacer"></div>
-      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/Z3G-o5goFNU')">
-        <div class="tl-flag">🇮🇹</div>
-        <div class="tl-year">Italia 1990</div>
-        <div class="tl-world">El Despertar Glorioso</div>
-        <p class="tl-desc">Freddy Rincón, Valderrama y Higuita encandilaron al mundo. El empate épico ante Alemania Federal en el último minuto con gol de Rincón nos clasificó a octavos de final por primera vez.</p>
-        <div class="tl-stats">
-          <span class="tl-stat">PJ: 4</span>
-          <span class="tl-stat">1G · 1E · 2P</span>
-          <span class="tl-stat">Octavos de final</span>
-          <span class="tl-stat">⭐ Rincón histórico</span>
+    </a>
+
+    <a href="mundial-italia-1990.html" class="mundial-card mc-featured">
+      <div class="mc-year-bg">1990</div>
+      <div class="mc-content">
+        <div class="mc-flag">🇮🇹</div>
+        <div class="mc-year">Italia 1990</div>
+        <div class="mc-sub">El Despertar Glorioso</div>
+        <div class="mc-stats-row">
+          <span class="mc-stat">4 PJ</span>
+          <span class="mc-stat">1G · 1E · 2P</span>
+          <span class="mc-stat">Octavos Final</span>
         </div>
+        <div class="mc-highlight">⚡ Rincón vs Alemania</div>
+        <div class="mc-cta">Ver Mundial completo →</div>
       </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/GOjWRiSFR1w')">
-        <div class="tl-flag">🇺🇸</div>
-        <div class="tl-year">USA 1994</div>
-        <div class="tl-world">La Tragedia de USA 94</div>
-        <p class="tl-desc">Con grandes expectativas tras golear a Argentina 5-0 en eliminatorias, Colombia llegó como favorita. La derrota ante Estados Unidos y el gol en propia puerta de Andrés Escobar marcaron uno de los momentos más trágicos del fútbol colombiano.</p>
-        <div class="tl-stats">
-          <span class="tl-stat">PJ: 3</span>
-          <span class="tl-stat">1G · 0E · 2P</span>
-          <span class="tl-stat">Fase de grupos</span>
-          <span class="tl-stat">💛 Andrés Escobar</span>
+    </a>
+
+    <a href="mundial-usa-1994.html" class="mundial-card mc-tragico">
+      <div class="mc-year-bg">1994</div>
+      <div class="mc-content">
+        <div class="mc-flag">🇺🇸</div>
+        <div class="mc-year">USA 1994</div>
+        <div class="mc-sub">La Tragedia de América</div>
+        <div class="mc-stats-row">
+          <span class="mc-stat">3 PJ</span>
+          <span class="mc-stat">1G · 0E · 2P</span>
+          <span class="mc-stat">Fase Grupos</span>
         </div>
+        <div class="mc-highlight">💛 Andrés Escobar</div>
+        <div class="mc-cta">Ver Mundial completo →</div>
       </div>
-      <div class="tl-spacer"></div>
-      <div class="tl-dot"></div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-spacer"></div>
-      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/4_5pP7zrVQA')">
-        <div class="tl-flag">🇫🇷</div>
-        <div class="tl-year">Francia 1998</div>
-        <div class="tl-world">El Escorpión en Europa</div>
-        <p class="tl-desc">Higuita, Valderrama y el Tino Asprilla brillaron aunque Colombia no pudo superar la fase de grupos. La generación dorada dejó su huella en Europa con un juego atractivo y memorable.</p>
-        <div class="tl-stats">
-          <span class="tl-stat">PJ: 3</span>
-          <span class="tl-stat">1G · 0E · 2P</span>
-          <span class="tl-stat">Fase de grupos</span>
-          <span class="tl-stat">🦂 Higuita presente</span>
+    </a>
+
+    <a href="mundial-francia-1998.html" class="mundial-card">
+      <div class="mc-year-bg">1998</div>
+      <div class="mc-content">
+        <div class="mc-flag">🇫🇷</div>
+        <div class="mc-year">Francia 1998</div>
+        <div class="mc-sub">El Escorpión en Europa</div>
+        <div class="mc-stats-row">
+          <span class="mc-stat">3 PJ</span>
+          <span class="mc-stat">1G · 1E · 1P</span>
+          <span class="mc-stat">Fase Grupos</span>
         </div>
+        <div class="mc-highlight">🦂 Higuita · El Pibe</div>
+        <div class="mc-cta">Ver Mundial completo →</div>
       </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/1_F-CJSNOhY')">
-        <div class="tl-flag">🇧🇷</div>
-        <div class="tl-year">Brasil 2014</div>
-        <div class="tl-world">La Generación de Oro</div>
-        <p class="tl-desc">James Rodríguez se convirtió en el Bota de Oro con 6 goles. Colombia llegó a cuartos de final por primera vez en su historia. El gol de volea contra Uruguay es considerado el mejor gol del torneo y de la historia colombiana.</p>
-        <div class="tl-stats">
-          <span class="tl-stat">PJ: 5</span>
-          <span class="tl-stat">3G · 1E · 1P</span>
-          <span class="tl-stat">⭐ Cuartos de final</span>
-          <span class="tl-stat">🏅 James Bota de Oro</span>
+    </a>
+
+    <a href="mundial-brasil-2014.html" class="mundial-card mc-oro">
+      <div class="mc-badge-top">⭐ MEJOR ACTUACIÓN HISTÓRICA</div>
+      <div class="mc-year-bg">2014</div>
+      <div class="mc-content">
+        <div class="mc-flag">🇧🇷</div>
+        <div class="mc-year">Brasil 2014</div>
+        <div class="mc-sub">La Generación de Oro</div>
+        <div class="mc-stats-row">
+          <span class="mc-stat">5 PJ</span>
+          <span class="mc-stat">4G · 0E · 1P</span>
+          <span class="mc-stat">⭐ Cuartos Final</span>
         </div>
+        <div class="mc-highlight">👑 James · 6 goles · Bota de Oro</div>
+        <div class="mc-cta">Ver Mundial completo →</div>
       </div>
-      <div class="tl-spacer"></div>
-      <div class="tl-dot"></div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-spacer"></div>
-      <div class="tl-content" onclick="openVideo('https://www.youtube.com/embed/cz6wIoqOKO0')">
-        <div class="tl-flag">🇷🇺</div>
-        <div class="tl-year">Rusia 2018</div>
-        <div class="tl-world">La Batalla de Rusia</div>
-        <p class="tl-desc">Colombia llegó a octavos de final. El penal fallado por Quintero y la épica pelea de penales ante Inglaterra donde Colombia estuvo a segundos de los cuartos de final. Yerry Mina se convirtió en héroe nacional.</p>
-        <div class="tl-stats">
-          <span class="tl-stat">PJ: 4</span>
-          <span class="tl-stat">2G · 0E · 2P</span>
-          <span class="tl-stat">Octavos de final</span>
-          <span class="tl-stat">🦁 Yerry Mina</span>
+    </a>
+
+    <a href="mundial-rusia-2018.html" class="mundial-card">
+      <div class="mc-year-bg">2018</div>
+      <div class="mc-content">
+        <div class="mc-flag">🇷🇺</div>
+        <div class="mc-year">Rusia 2018</div>
+        <div class="mc-sub">La Batalla de Rusia</div>
+        <div class="mc-stats-row">
+          <span class="mc-stat">4 PJ</span>
+          <span class="mc-stat">2G · 0E · 2P</span>
+          <span class="mc-stat">Octavos Final</span>
         </div>
+        <div class="mc-highlight">🦁 Yerry Mina · 3 goles</div>
+        <div class="mc-cta">Ver Mundial completo →</div>
       </div>
-    </div>
+    </a>
+
   </div>
 </section>
 
